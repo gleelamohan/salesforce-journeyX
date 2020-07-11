@@ -1,5 +1,7 @@
 .maincontainer{
    background-color: white;
+   padding-bottom: 20px;
+   min-height:450px;
 }
 
 .header{
@@ -14,5 +16,5 @@
 }
 
 .account-details{
-    margin:20px;
+    margin:20px 20px 40px 20px;
 }

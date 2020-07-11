@@ -9,3 +9,11 @@
 .align{
     text-align: center;
 }
+
+.slds-align_absolute-center{
+    display: none;
+}
+
+.editform{
+    width:100%;
+}
