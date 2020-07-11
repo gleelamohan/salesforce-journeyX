@@ -1,0 +1,18 @@
+.maincontainer{
+   background-color: white;
+}
+
+.header{
+    text-align: center;
+    padding:30px 30px 10px 30px;
+    color:#2E5B96;
+}
+
+.title-top{
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.account-details{
+    margin:20px;
+}
