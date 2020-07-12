@@ -18,7 +18,7 @@
                     </div>
                     <div class="slds-col slds-size_1-of-2">
                         <lightning-input-field field-name="Name" title="Account Name"></lightning-input-field>
-                        <lightning-input type="text" label="Country"></lightning-input>
+                        <lightning-input-field field-name="Country__c" title="Country"></lightning-input-field>
                         <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats}
                             record-id={userId} onuploadfinished={handleUploadFinished}>
                         </lightning-file-upload>
