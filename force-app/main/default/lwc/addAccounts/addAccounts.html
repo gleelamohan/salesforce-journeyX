@@ -19,9 +19,7 @@
                     <div class="slds-col slds-size_1-of-2">
                         <lightning-input-field field-name="Name" title="Account Name"></lightning-input-field>
                         <lightning-input-field field-name="Country__c" title="Country"></lightning-input-field>
-                        <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats}
-                            record-id={userId} onuploadfinished={handleUploadFinished}>
-                        </lightning-file-upload>
+
                     </div>
                 </div>
             </lightning-record-edit-form>
@@ -33,12 +31,14 @@
         </div>  <div if:true={isUpload}>-->
 
         <div>
-            <!-- <div class="account-title">
+            <div class="account-title">
                 Do you want to upload logo?
             </div>
             <div>
-
-            </div>-->
+                <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats}
+                    record-id={userId} onuploadfinished={handleUploadFinished}>
+                </lightning-file-upload>
+            </div>
             <div class="align">
                 <lightning-button variant="brand" label="I'm Done! Lets Add Contacts" title="Primary action"
                     onclick={saveClick} class="slds-m-left_x-small"></lightning-button>
