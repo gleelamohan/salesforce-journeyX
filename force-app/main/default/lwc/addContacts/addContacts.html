@@ -1,0 +1,40 @@
+<template>
+    <div class="contact-title">
+        Add Contacts
+    </div>
+    <lightning-record-edit-form object-api-name="Contact_xp__c" class="editform" onsuccess={handleSuccess}
+        onsubmit={handleSubmit}>
+        <div class="slds-grid slds-wrap">
+            <div class="sld-col slds-size_2-of-2">
+                <lightning-messages>
+                </lightning-messages>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field required field-name="Name" title="Full Name">
+                </lightning-input-field>
+                <lightning-input-field required field-name="Email__c" title="Email"></lightning-input-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input-field required field-name="Contact_Number__c" title="Contact Number">
+                </lightning-input-field>
+                <lightning-input-field required field-name="Role__c" title="Role"></lightning-input-field>
+            </div>
+        </div>
+        <div class="align">
+            <lightning-button type="submit" variant="brand" label="Add Contact" title="Primary action"
+                class="slds-m-left_x-small"></lightning-button>
+
+        </div>
+        <template if:true={contactsForDisplay}>
+            <div class="contact-title">
+                Added Contacts
+            </div>
+            <div class="slds-p-top_small">
+                <lightning-datatable hide-checkbox-column="true" resize-column-disabled="true" key-field="Id"
+                    data={contactsForDisplay} columns={columns}>
+                </lightning-datatable>
+            </div>
+        </template>
+    </lightning-record-edit-form>
+
+</template>

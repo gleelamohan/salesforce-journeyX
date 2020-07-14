@@ -1,0 +1,17 @@
+.contact-title {
+  color: #2e5b96;
+  font-weight: bold;
+  padding: 10px 0px 10px;
+}
+.align {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.slds-align_absolute-center {
+  display: none;
+}
+
+.editform {
+  width: 100%;
+}
