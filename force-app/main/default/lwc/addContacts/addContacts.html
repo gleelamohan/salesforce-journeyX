@@ -28,16 +28,14 @@
                 class="slds-m-left_x-small"></lightning-button>
 
         </div>
-        <template if:true={contactsForDisplay}>
-            <div class="contact-title">
-                Added Contacts
-            </div>
-            <div class="slds-p-top_small">
-                <lightning-datatable hide-checkbox-column="true" resize-column-disabled="true" key-field="Id"
-                    data={contactsForDisplay} columns={columns}>
-                </lightning-datatable>
-            </div>
-        </template>
     </lightning-record-edit-form>
+    <template if:true={loadContacts}>
+        <div class="contact-title">
+            Added Contacts
+        </div>
+        <div class="slds-p-top_small">
+            <c-display-contacts></c-display-contacts>
+        </div>
+    </template>
 
 </template>

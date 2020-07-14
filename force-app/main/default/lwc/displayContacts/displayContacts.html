@@ -1,0 +1,77 @@
+<template>
+    <template if:true={showConfirmDialog}>
+        <!--Modal Box Start-->
+        <div role="dialog" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!--Modal Box Header Start-->
+                <header class="slds-modal__header">
+                    <h1 class="slds-text-heading--medium">Confirmation</h1>
+                </header>
+                <!--Modal Box Header End-->
+
+                <!--Modal Box Content Start-->
+                <div class="slds-modal__content slds-p-around--medium">
+                    <center><b>Are you sure you want to delete this item?</b></center>
+                </div>
+                <!--Modal Box Content End-->
+
+                <!--Modal Box Button Start-->
+                <footer class="slds-modal__footer">
+                    <lightning-button class="slds-p-right_small" name='No' label='No' onclick={handleConfirmDialogNo}>
+                    </lightning-button>
+                    <lightning-button data-recid={selrecId} variant="brand" name='Yes' label='Yes'
+                        onclick={handleConfirmDialogYes}></lightning-button>
+                </footer>
+                <!--Modal Box Button End-->
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </template>
+    <template if:true={showConEditForm}>
+        <div role="dialog" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h1 class="slds-text-heading--medium">Edit Contact</h1>
+                </header>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <lightning-record-edit-form record-id={selrecId} object-api-name="Contact_xp__c" class="editform"
+                        onsuccess={handleSuccess}>
+                        <div class="slds-grid slds-wrap">
+                            <div class="sld-col slds-size_2-of-2">
+                                <lightning-messages>
+                                </lightning-messages>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required field-name="Name" title="Full Name">
+                                </lightning-input-field>
+                                <lightning-input-field required field-name="Email__c" title="Email">
+                                </lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required field-name="Contact_Number__c" title="Contact Number">
+                                </lightning-input-field>
+                                <lightning-input-field required field-name="Role__c" title="Role">
+                                </lightning-input-field>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+                <footer class="slds-modal__footer">
+                    <div class="align">
+                        <lightning-button variant="brand" label="Save Contact" title="Primary action"
+                            class="slds-m-left_x-small" onclick={saveContact}></lightning-button>
+
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </template>
+    <template if:true={contact.data}>
+        <div style="height:300px">
+            <lightning-datatable hide-checkbox-column="true" resize-column-disabled="true" key-field="Id"
+                data={contact.data} columns={columns} onrowaction={handleRowAction} show-row-number-column="true">
+            </lightning-datatable>
+        </div>
+    </template>
+</template>
