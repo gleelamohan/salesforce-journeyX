@@ -19,8 +19,7 @@ export default class AddContacts extends LightningElement {
   handleSubmit(event) {
     event.preventDefault(); // stop the form from submitting
     const fields = event.detail.fields;
-    //fields.Account__c = this.accountId;
-    fields.Account__c = "a013h000008kzPjAAI";
+    fields.Account__c = this.accountId;
     this.template.querySelector("lightning-record-edit-form").submit(fields);
   }
   showToast() {

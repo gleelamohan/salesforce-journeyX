@@ -23,7 +23,7 @@ export default class DisplayContacts extends LightningElement {
       typeAttributes: { rowActions: this.actions }
     }
   ];
-  @api accountId = "a013h000008kzPjAAI";
+  @api accountId;
   @wire(getContactList, { accId: "$accountId" })
   contact;
 
