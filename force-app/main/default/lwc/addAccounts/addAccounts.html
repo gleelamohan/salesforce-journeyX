@@ -12,6 +12,8 @@
         class="editform"
         onsuccess={handleSuccess}
       >
+      <lightning-record-edit-form object-api-name="Account_xp__c" class="editform" onsuccess={handleSuccess}
+        record-id={accountId}>
         <div class="slds-grid">
           <lightning-messages> </lightning-messages>
           <div class="slds-col slds-size_1-of-2">

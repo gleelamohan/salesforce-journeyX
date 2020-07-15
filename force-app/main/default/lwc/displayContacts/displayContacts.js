@@ -88,6 +88,10 @@ export default class DisplayContacts extends LightningElement {
     this.showConEditForm = false;
     return refreshApex(this.contact);
   }
+  closeEditModal() {
+    this.showConEditForm = false;
+    this.selrecId = "";
+  }
   /*handleSave(event) {
     const fields = {};
     console.log("id***" + JSON.stringify(event.detail));

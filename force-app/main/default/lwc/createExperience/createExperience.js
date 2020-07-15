@@ -49,4 +49,15 @@ export default class CreateExperience extends LightningElement {
         return this.stage === "contact";
     }
 
-}
+}  get isAEStage() {
+    return this.stage === "executive";
+  }
+  goToAddAccounts() {
+    this.stage = "account";
+  }
+  goToExecutive() {
+    this.stage = "executive";
+  }
+  goToContact() {
+    this.stage = "contact";
+  }

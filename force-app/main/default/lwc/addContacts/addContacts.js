@@ -1,18 +1,21 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import getContactList from "@salesforce/apex/XP_ContactController.fetchContacts";
 export default class AddContacts extends LightningElement {
   @api accountId;
-  loadContacts = false;
+  @wire(getContactList, { accId: "$accountId" })
+  contact;
+  get hasContacts() {
+    return this.contact && this.contact.data
+      ? this.contact.data.length > 0
+      : false;
+  }
   handleSuccess(event) {
-    if (!this.loadContacts) {
-      this.loadContacts = true;
-    } else {
-      this.template.querySelector("c-display-contacts").reloadContactData();
-    }
-
+    this.template.querySelector("c-display-contacts").reloadContactData();
     this.showToast();
     this.resetForm();
   }
+
   errorCallback(error, stack) {
     console.log(error, stack);
   }
@@ -37,5 +40,11 @@ export default class AddContacts extends LightningElement {
         field.reset();
       });
     }
+  }
+  handleFinishContacts() {
+    this.dispatchEvent(new CustomEvent("finishcontacts"));
+  }
+  handleGoBack() {
+    this.dispatchEvent(new CustomEvent("backtoaccount"));
   }
 }
