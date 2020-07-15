@@ -43,16 +43,12 @@
         </div>
       </lightning-record-edit-form>
     </div>
-    <!--<div class="align" if:false={isUpload}>
-            <lightning-button variant="brand" label="Add" title="Primary action" onclick={saveClick}
-                class="slds-m-left_x-small"></lightning-button>
-
-        </div>  <div if:true={isUpload}>-->
     <div>
       <div class="account-title">
         Do you want to upload logo?
       </div>
       <div>
+    <div if:false={documentId}>
         <lightning-file-upload
           label="Attach Logo"
           name="fileUploader"
@@ -61,6 +57,16 @@
           onuploadfinished={handleUploadFinished}
         >
         </lightning-file-upload>
+    </div>
+        <div if:true={documentId}>
+            <div class="img-container">
+                <div class="dialog">
+                    <div class="close-thik" onclick={deleteAttachment}></div>
+                    <div style="margin-top:10px;"><lightning-icon icon-name="doctype:image" alternative-text="Image file" title="Image"></lightning-icon></div>
+                  </div>
+            </div>
+            <div>{attachmentName}</div>
+        </div>
       </div>
       <div class="align">
         <lightning-button

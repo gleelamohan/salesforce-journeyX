@@ -1,10 +1,12 @@
 import { LightningElement, api } from "lwc";
 import updateAttachment from "@salesforce/apex/XpAccountController.updateAccountAttachment";
+import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocument";
 
 export default class AddAccounts extends LightningElement {
   @api userId;
   accountId = "";
   documentId = "";
+  attachmentName = "";
   handleSuccess(event) {
     this.accountId = event.detail.id;
     console.log(this.accountId);
@@ -18,10 +20,6 @@ export default class AddAccounts extends LightningElement {
 
   get acceptedFormats() {
     return [".png", ".jpg", ".jpeg"];
-  }
-
-  get isUpload() {
-    return this.accountId != "" ? true : false;
   }
 
   updateAttachmentId() {
@@ -46,9 +44,24 @@ export default class AddAccounts extends LightningElement {
     this.template.querySelector("lightning-record-edit-form").submit();
   }
 
+  deleteAttachment(event){
+      this.documentId = "";
+      this.attachmentName = "";
+
+      updateAttachment({ documentId: this.documentId })
+      .then((result) => {
+         console.log('document deleted');
+      })
+      .catch((error) => {
+        this.error = error;
+        console.log(error);
+      });
+  }
+
   handleUploadFinished(event) {
     const uploadedFiles = event.detail.files;
     this.documentId = uploadedFiles[0].documentId;
+    this.attachmentName = uploadedFiles[0].name;
     console.log("No. of files uploaded : " + uploadedFiles.length);
   }
 }
