@@ -27,9 +27,14 @@ export default class CreateExperience extends LightningElement {
         }
     }
 
-    contactStage(event){
+    gotoContactStage(event){
         this.accountId = event.detail.accountId;
         this.stage = "contact";
+    }
+
+    gotoExecutiveDetailsStage(event){
+        this.accountId = event.detail.accountId;
+        this.stage = "executive";
     }
 
     get isAccountStage() {
@@ -37,6 +42,10 @@ export default class CreateExperience extends LightningElement {
     }
 
     get isContactStage() {
+        return this.stage === "contact";
+    }
+
+    get isExecutive() {
         return this.stage === "contact";
     }
 

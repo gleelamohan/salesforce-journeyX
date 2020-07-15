@@ -11,10 +11,13 @@
         </div>
         <div class="slds-box account-details">
             <template if:true={isAccountStage}>
-                <c-add-accounts user-id={id} onaccountsubmit={contactStage}></c-add-accounts>
+                <c-add-accounts user-id={id} onaccountsubmit={gotoContactStage}></c-add-accounts>
             </template>
             <template if:true={isContactStage}>
-                <c-add-contacts account-id={accountId}></c-add-contacts>
+                <c-add-contacts account-id={accountId} ></c-add-contacts>
+            </template>
+            <template  if:true={isExecutive}>
+
             </template>
         </div>
     </div>
