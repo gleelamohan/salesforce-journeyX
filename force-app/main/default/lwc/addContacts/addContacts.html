@@ -1,7 +1,7 @@
 <template>
     <div class="slds-border_bottom">
         <c-flowpath stage-id="2"></c-flowpath>
-      </div>
+    </div>
     <div class="contact-title">
         Add Contacts
     </div>
@@ -29,13 +29,25 @@
 
         </div>
     </lightning-record-edit-form>
-    <template if:true={loadContacts}>
-        <div class="contact-title">
-            Added Contacts
-        </div>
-        <div class="slds-p-top_small">
-            <c-display-contacts account-id={accountId}></c-display-contacts>
-        </div>
-    </template>
-
+    <!--<template if:true={hasCreatedContact}>-->
+    <div class="contact-title">
+        Added Contacts
+    </div>
+    <div class="slds-p-top_small">
+        <c-display-contacts account-id={accountId}></c-display-contacts>
+    </div>
+    <!--</template>-->
+    <lightning-layout horizontal-align="spread">
+        <lightning-layout-item padding="around-small" flexibility="auto,no-grow">
+            <lightning-button label="Go Back" onclick={handleGoBack}></lightning-button>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small" flexibility="auto,no-grow">
+            <lightning-button variant="brand" if:true={hasContacts} label="Finish Contacts"
+                onclick={handleFinishContacts}>
+            </lightning-button>
+            <lightning-button variant="brand" if:false={hasContacts} disabled label="Finish Contacts"
+                onclick={handleFinishContacts}>
+            </lightning-button>
+        </lightning-layout-item>
+    </lightning-layout>
 </template>

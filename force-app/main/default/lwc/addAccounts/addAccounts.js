@@ -4,7 +4,7 @@ import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocumen
 
 export default class AddAccounts extends LightningElement {
   @api userId;
-  accountId = "";
+  @api accountId = "";
   documentId = "";
   attachmentName = "";
   handleSuccess(event) {

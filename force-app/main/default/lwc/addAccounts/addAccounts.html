@@ -7,38 +7,20 @@
       Account Details
     </div>
     <div class="slds-grid slds-wrap">
-      <lightning-record-edit-form
-        object-api-name="Account_xp__c"
-        class="editform"
-        onsuccess={handleSuccess}
-      >
+
+      <lightning-record-edit-form object-api-name="Account_xp__c" class="editform" onsuccess={handleSuccess}
+        record-id={accountId}>
         <div class="slds-grid">
           <lightning-messages> </lightning-messages>
           <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Name__c"
-              title="Experience Name"
-              placeholder="Experience Name"
-            ></lightning-input-field>
-            <lightning-input-field
-              field-name="Business_Unit__c"
-              title="Type"
-            ></lightning-input-field>
-            <lightning-input-field
-              field-name="Industry__c"
-              type="Industry"
-            ></lightning-input-field>
+            <lightning-input-field field-name="Name__c" title="Experience Name" placeholder="Experience Name">
+            </lightning-input-field>
+            <lightning-input-field field-name="Business_Unit__c" title="Type"></lightning-input-field>
+            <lightning-input-field field-name="Industry__c" type="Industry"></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              required
-              field-name="Name"
-              title="Account Name"
-            ></lightning-input-field>
-            <lightning-input-field
-              field-name="Country__c"
-              title="Country"
-            ></lightning-input-field>
+            <lightning-input-field required field-name="Name" title="Account Name"></lightning-input-field>
+            <lightning-input-field field-name="Country__c" title="Country"></lightning-input-field>
           </div>
         </div>
       </lightning-record-edit-form>
@@ -48,34 +30,26 @@
         Do you want to upload logo?
       </div>
       <div>
-    <div if:false={documentId}>
-        <lightning-file-upload
-          label="Attach Logo"
-          name="fileUploader"
-          accept={acceptedFormats}
-          record-id={userId}
-          onuploadfinished={handleUploadFinished}
-        >
-        </lightning-file-upload>
-    </div>
+        <div if:false={documentId}>
+          <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats} record-id={userId}
+            onuploadfinished={handleUploadFinished}>
+          </lightning-file-upload>
+        </div>
         <div if:true={documentId}>
-            <div class="img-container">
-                <div class="dialog">
-                    <div class="close-thik" onclick={deleteAttachment}></div>
-                    <div style="margin-top:10px;"><lightning-icon icon-name="doctype:image" alternative-text="Image file" title="Image"></lightning-icon></div>
-                  </div>
+          <div class="img-container">
+            <div class="dialog">
+              <a href="#" class="close-thik" onclick={deleteAttachment}></a>
+              <div style="margin-top:10px;">
+                <lightning-icon icon-name="doctype:image" alternative-text="Image file" title="Image"></lightning-icon>
+              </div>
             </div>
-            <div>{attachmentName}</div>
+          </div>
+          <div>{attachmentName}</div>
         </div>
       </div>
       <div class="align">
-        <lightning-button
-          variant="brand"
-          label="I'm Done! Lets Add Contacts"
-          title="Primary action"
-          onclick={saveClick}
-          class="slds-m-left_x-small"
-        ></lightning-button>
+        <lightning-button variant="brand" label="I'm Done! Lets Add Contacts" title="Primary action" onclick={saveClick}
+          class="slds-m-left_x-small"></lightning-button>
       </div>
     </div>
   </div>

@@ -60,15 +60,17 @@
                     <div class="align">
                         <lightning-button variant="brand" label="Save Contact" title="Primary action"
                             class="slds-m-left_x-small" onclick={saveContact}></lightning-button>
-
+                        <lightning-button variant="brand" label="Cancel" title="Primary action"
+                            class="slds-m-left_x-small" onclick={closeEditModal}></lightning-button>
                     </div>
                 </footer>
             </div>
         </div>
         <div class="slds-backdrop slds-backdrop--open"></div>
     </template>
+
     <template if:true={contact.data}>
-        <div style="height:300px">
+        <div style="height:200px">
             <lightning-datatable hide-checkbox-column="true" resize-column-disabled="true" key-field="Id"
                 data={contact.data} columns={columns} onrowaction={handleRowAction} show-row-number-column="true">
             </lightning-datatable>
