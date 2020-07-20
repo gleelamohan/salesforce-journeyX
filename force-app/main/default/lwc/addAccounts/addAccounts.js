@@ -1,10 +1,12 @@
 import { LightningElement, api } from "lwc";
 import updateAttachment from "@salesforce/apex/XpAccountController.updateAccountAttachment";
 import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocument";
+import saveXperience from "@salesforce/apex/XpAccountController.savXperience";
 
 export default class AddAccounts extends LightningElement {
   @api userId;
   @api accountId = "";
+  @api xperienceId = "";
   documentId = "";
   attachmentName = "";
   handleSuccess(event) {
@@ -25,8 +27,23 @@ export default class AddAccounts extends LightningElement {
   updateAttachmentId() {
     updateAttachment({ accountId: this.accountId, documentId: this.documentId })
       .then((result) => {
-        this.contacts = result;
+        //this.contacts = result;
         this.dispatchAccountEvent();
+      })
+      .catch((error) => {
+        this.error = error;
+      });
+  }
+  insertXperience()
+  {
+    saveXperience({ accountId: this.accountId})
+      .then((result) => {
+        console.log(result);
+        this.xperienceId = result;
+        const accEvent = new CustomEvent("accountsubmit", {
+          detail: { accountId: this.accountId, xpId: this.xperienceId }
+        });
+        this.dispatchEvent(accEvent);
       })
       .catch((error) => {
         this.error = error;
@@ -34,10 +51,7 @@ export default class AddAccounts extends LightningElement {
   }
 
   dispatchAccountEvent() {
-    const accEvent = new CustomEvent("accountsubmit", {
-      detail: { accountId: this.accountId }
-    });
-    this.dispatchEvent(accEvent);
+    this.insertXperience();
   }
 
   saveClick(event) {

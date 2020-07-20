@@ -11,7 +11,7 @@
         </div>
         <div class="slds-box account-details">
             <template if:true={isAccountStage}>
-                <c-add-accounts user-id={id} account-id={accountId} onaccountsubmit={contactStage}></c-add-accounts>
+                <c-add-accounts user-id={id} xperience-id={xpId} account-id={accountId} onaccountsubmit={contactStage}></c-add-accounts>
             </template>
             <template if:true={isContactStage}>
                 <c-add-contacts account-id={accountId} onfinishcontacts={goToExecutive}

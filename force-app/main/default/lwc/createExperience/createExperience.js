@@ -9,6 +9,7 @@ export default class CreateExperience extends LightningElement {
   @track id;
   @api stage = "account";
   @track accountId;
+  @track xpId;
 
   @wire(getRecord, {
     recordId: USER_ID,
@@ -26,6 +27,7 @@ export default class CreateExperience extends LightningElement {
 
   contactStage(event) {
     this.accountId = event.detail.accountId;
+    this.xpId = event.detail.xpId;
     this.stage = "contact";
   }
 
