@@ -32,11 +32,7 @@ export default class CreateExperience extends LightningElement {
   }
 
   get isAccountStage() {
-    return (!this.accountId && !this.xpId) && this.stage === "account";
-  }
-
-  get isAccountEdit(){
-    return (this.accountId && this.xpId) && this.stage === "account";
+    return this.stage === "account";
   }
 
   get isAEStage() {

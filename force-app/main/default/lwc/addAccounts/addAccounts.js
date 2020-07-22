@@ -2,6 +2,8 @@ import { LightningElement, api } from "lwc";
 import updateAttachment from "@salesforce/apex/XpAccountController.updateAccountAttachment";
 import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocument";
 import saveXperience from "@salesforce/apex/XpAccountController.savXperience";
+import getDocumentVersionId from "@salesforce/apex/XpAccountController.fetchDocumentVersionId";
+
 
 export default class AddAccounts extends LightningElement {
   @api userId;
@@ -9,6 +11,12 @@ export default class AddAccounts extends LightningElement {
   @api xperienceId;
   documentId = "";
   attachmentName = "";
+  logo;
+
+  connectedCallback(){
+    
+  }
+
   handleSuccess(event) {
     this.accountId = event.detail.id;
     console.log(this.accountId);
@@ -50,6 +58,14 @@ export default class AddAccounts extends LightningElement {
       });
   }
 
+  getVersionId(){
+    getDocumentVersionId({ linkedEntityId: this.userId,documentId: this.documentId })
+    .then((result) =>
+    {
+      this.logo = '/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
+    });
+  }
+
   dispatchAccountEvent() {
     this.insertXperience();
   }
@@ -77,5 +93,6 @@ export default class AddAccounts extends LightningElement {
     this.documentId = uploadedFiles[0].documentId;
     this.attachmentName = uploadedFiles[0].name;
     console.log("No. of files uploaded : " + uploadedFiles.length);
+    this.getVersionId();
   }
 }

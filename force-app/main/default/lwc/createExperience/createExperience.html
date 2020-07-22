@@ -12,9 +12,6 @@
             <template if:true={isAccountStage}>
                 <c-add-accounts user-id={id} xperience-id={xpId} account-id={accountId} onaccountsubmit={contactStage}></c-add-accounts>
             </template>
-            <template if:true={isAccountEdit}>
-                <c-edit-accounts user-id={id} xperience-id={xpId} account-id={accountId} onaccountsubmit={contactStage}></c-edit-accounts>
-            </template>
             <template if:true={isContactStage}>
                 <c-add-contacts account-id={accountId} xperience-id={xpId} onfinishcontacts={goToExecutive}
                     onbacktoaccount={goToAddAccounts}>

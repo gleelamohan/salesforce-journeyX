@@ -47,4 +47,12 @@ public class XpAccountController {
     public static void deleteDocument(string documentId) {
         delete [select Id from ContentDocument where Id=:documentId];
     }
+
+    
+    @AuraEnabled
+    public static ContentDocumentLink fetchDocumentVersionId(string linkedEntityId, string documentId) {
+        return [SELECT ContentDocument.LatestPublishedVersionId,ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =:linkedEntityId and ContentDocumentId =:documentId ];
+    }
+
+
 }
