@@ -3,6 +3,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getContactList from "@salesforce/apex/XP_ContactController.fetchContacts";
 export default class AddContacts extends LightningElement {
   @api accountId;
+  @api xperienceId;
   @wire(getContactList, { accId: "$accountId" })
   contact;
   get hasContacts() {
@@ -45,6 +46,8 @@ export default class AddContacts extends LightningElement {
     this.dispatchEvent(new CustomEvent("finishcontacts"));
   }
   handleGoBack() {
-    this.dispatchEvent(new CustomEvent("backtoaccount"));
+    this.dispatchEvent(new CustomEvent("backtoaccount",{
+      detail: { accountId: this.accountId, xpId: this.xperienceId }
+    }));
   }
 }

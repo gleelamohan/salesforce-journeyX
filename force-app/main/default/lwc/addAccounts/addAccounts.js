@@ -5,8 +5,8 @@ import saveXperience from "@salesforce/apex/XpAccountController.savXperience";
 
 export default class AddAccounts extends LightningElement {
   @api userId;
-  @api accountId = "";
-  @api xperienceId = "";
+  @api accountId;
+  @api xperienceId;
   documentId = "";
   attachmentName = "";
   handleSuccess(event) {

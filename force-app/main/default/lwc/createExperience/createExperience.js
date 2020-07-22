@@ -32,15 +32,29 @@ export default class CreateExperience extends LightningElement {
   }
 
   get isAccountStage() {
-    return this.stage === "account";
+    return (!this.accountId && !this.xpId) && this.stage === "account";
+  }
+
+  get isAccountEdit(){
+    return (this.accountId && this.xpId) && this.stage === "account";
   }
 
   get isAEStage() {
     return this.stage === "executive";
   }
-  goToAddAccounts() {
+
+  get isContactStage(){
+    return this.stage === "contact";
+  }
+
+  goToAddAccounts(event) {
+    this.accountId = event.detail.accountId;
+    this.xpId = event.detail.xpId;
+    console.log(this.accountId );
+    console.log(this.xpId);
     this.stage = "account";
   }
+
   goToExecutive() {
     this.stage = "executive";
   }
