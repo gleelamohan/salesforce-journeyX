@@ -18,7 +18,14 @@
                 </c-add-contacts>
             </template>
             <template if:true={isAEStage}>
-                <c-add-account-executive onbacktocontact={goToContact}></c-add-account-executive>
+                <c-xp-add-account-executive account-id={accountId} xperience-id={xpId} executive-info={executiveInfo}
+                    onbacktocontact={goToContact} onaddexecutive={goToJourneyDetails}>
+                </c-xp-add-account-executive>
+            </template>
+            <template if:true={isJourneyStage}>
+                <c-xp-journey-details account-id={accountId} xperience-id={xpId} executive-id={executiveId}
+                    onbacktoexecutive={goToExecutive}>
+                </c-xp-journey-details>
             </template>
         </div>
     </div>

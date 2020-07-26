@@ -1,0 +1,68 @@
+public with sharing class XP_AccountExecutiveController {
+
+    @AuraEnabled
+    public static string updateAEImage(string aeId, string documentId, string expId){
+        if(string.isNotBlank(documentId)){
+            ContentDocumentLink newAccountDoc = new ContentDocumentLink();
+            newAccountDoc.ContentDocumentId = documentId;
+            newAccountDoc.LinkedEntityId = aeId;
+            newAccountDoc.ShareType = 'I';
+            newAccountDoc.Visibility = 'InternalUsers';
+            insert newAccountDoc;
+        }    
+        return linkExecAndExperience(aeId, expId); 
+        
+    }
+    @AuraEnabled
+    public static string linkExecAndExperience(string aeId, string expId){
+        List<XP_Executive_Experience__c> expJunctionList = new List<XP_Executive_Experience__c>(
+                                                            [SELECT Id,Executive__c, Experience__c 
+                                                            FROM XP_Executive_Experience__c
+                                                            WHERE Executive__c =: aeId
+                                                            and Experience__c=:expId]);
+        if(expJunctionList.isEmpty()){
+            XP_Executive_Experience__c expJunctionObj = new XP_Executive_Experience__c(Executive__c = aeId, Experience__c = expId); 
+            insert expJunctionObj;
+            return expJunctionObj.Id;
+        }
+        return expJunctionList[0].Id;
+    }
+
+   @AuraEnabled
+   public static AccExecutiveWrapper fetchExecutive(){
+        AccExecutiveWrapper aeWrap = new AccExecutiveWrapper();
+        List<XP_Executive__c> execList = new List<XP_Executive__c>([SELECT ID,name,Email__c, Bio__c, Contact_number__c
+                                                                FROM XP_Executive__c 
+                                                                WHERE email__c=:UserInfo.getUserEmail()]);
+        if(execList.isempty()){
+            aeWrap.currUser = [SELECT Id,name, email, phone 
+                               FROM User 
+                               WHERE id=:UserInfo.getUserId()][0];
+            aeWrap.isUser = true;
+        }else{
+            aeWrap.executive = execList[0];
+            aeWrap.isUser = false;
+            aeWrap.cdl = fetchDocument(aeWrap.executive.Id);
+        }
+        return aeWrap;
+   }
+
+   @AuraEnabled(cacheable=true)
+   public static ContentDocumentLink fetchDocument(String executiveId){
+    List<ContentDocumentLink> cdlList = new List<ContentDocumentLink>([SELECT ContentDocument.LatestPublishedVersionId,ContentDocumentId 
+                                                                       FROM ContentDocumentLink 
+                                                                       WHERE LinkedEntityId =:executiveId]);
+     
+     return !cdlList.isEmpty() ? cdlList[0] : null;                                                                  
+   }
+   public class AccExecutiveWrapper{
+        @AuraEnabled
+        public XP_Executive__c executive{get;set;}
+        @AuraEnabled
+        public User currUser{get;set;}
+        @AuraEnabled
+        public Boolean isUser{get;set;}
+        @AuraEnabled
+        public ContentDocumentLink cdl{get;set;}
+    }
+}

@@ -10,7 +10,12 @@ export default class CreateExperience extends LightningElement {
   @api stage = "account";
   @track accountId;
   @track xpId;
-
+  @track executiveInfo = {
+    executiveId: "",
+    documentId: "",
+    imageUrl: "",
+    iamExecutive: false
+  };
   @wire(getRecord, {
     recordId: USER_ID,
     fields: [NAME_FIELD]
@@ -39,14 +44,17 @@ export default class CreateExperience extends LightningElement {
     return this.stage === "executive";
   }
 
-  get isContactStage(){
+  get isContactStage() {
     return this.stage === "contact";
   }
 
+  get isJourneyStage() {
+    return this.stage === "journey";
+  }
   goToAddAccounts(event) {
     this.accountId = event.detail.accountId;
     this.xpId = event.detail.xpId;
-    console.log(this.accountId );
+    console.log(this.accountId);
     console.log(this.xpId);
     this.stage = "account";
   }
@@ -56,5 +64,9 @@ export default class CreateExperience extends LightningElement {
   }
   goToContact() {
     this.stage = "contact";
+  }
+  goToJourneyDetails(event) {
+    this.stage = "journey";
+    this.executiveInfo = event.detail;
   }
 }
