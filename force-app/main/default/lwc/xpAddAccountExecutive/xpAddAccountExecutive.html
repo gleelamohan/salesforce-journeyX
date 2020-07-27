@@ -5,8 +5,9 @@
         </div>
         <div style="text-align:center" class="slds-p-around_large">
             <div style="margin-left:41%;" class="slds-p-around_small">
-                <lightning-input checked={iamExecutive} message-toggle-active="" message-toggle-inactive=""
-                    type="toggle" label="I am an Account Executive" onchange={handleExecutiveToggle}></lightning-input>
+                <lightning-input class="togglecheck" checked={exec.isExecutive} message-toggle-active=""
+                    message-toggle-inactive="" type="toggle" label="I am an Account Executive"
+                    onchange={handleExecutiveToggle}></lightning-input>
             </div>
             <div class="slds-text-title_caps">How is this Information Used?</div>
             <div class="slds-text-title">The details of the Account Executive are inluded as a signature in all email
@@ -14,34 +15,37 @@
         </div>
 
         <lightning-record-edit-form object-api-name="XP_Executive__c" class="editform" onsuccess={handleSuccess}
-            record-id={executiveId} onsubmit={addAccountExecutive}>
+            record-id={exec.executiveId} onsubmit={addAccountExecutive}>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="sld-col slds-size_2-of-2">
                     <lightning-messages>
                     </lightning-messages>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
-                    <lightning-input-field required field-name="Name" title="Full Name" value={exec.Name}>
+                    <lightning-input-field name="Name" required field-name="Name" title="Full Name" value={exec.Name}
+                        onchange={handleOnChange}>
                     </lightning-input-field>
-                    <lightning-input-field required field-name="Bio__c" title="Bio" value={exec.Bio}>
+                    <lightning-input-field name="Bio" required field-name="Bio__c" title="Bio" value={exec.Bio}
+                        onchange={handleOnChange}>
                     </lightning-input-field>
-                    <lightning-input-field required field-name="Email__c" title="Email" value={exec.Email}>
+                    <lightning-input-field name="Email" required field-name="Email__c" title="Email" value={exec.Email}
+                        onchange={handleOnChange}>
                     </lightning-input-field>
-                    <lightning-input-field required field-name="Contact_Number__c" title="Contact Number"
-                        value={exec.cno}>
+                    <lightning-input-field name="cno" required field-name="Contact_Number__c" title="Contact Number"
+                        onchange={handleOnChange} value={exec.cno}>
                     </lightning-input-field>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
-                    <div if:false={documentId}>
+                    <div if:false={exec.documentId}>
                         <lightning-file-upload label="Upload Profile Photo" name="fileUploader" accept={acceptedFormats}
                             record-id={recid} onuploadfinished={handleUploadFinished}>
                         </lightning-file-upload>
                     </div>
-                    <div class="slds-grid" if:true={imageUrl}>
+                    <div class="slds-grid" if:true={exec.imageUrl}>
                         <div class="slds-col slds-size_2-of-5">
                             <label class="slds-form-element__label slds-no-flex">Profile Picture</label>
                             <div class="image-area slds-p-around_small">
-                                <img src={imageUrl} class="picture" alt="preview" />
+                                <img src={exec.imageUrl} class="picture" alt="preview" />
                                 <a onclick={deleteImage} class="remove-image" style="display: inline;">&#215;</a>
                             </div>
                         </div>

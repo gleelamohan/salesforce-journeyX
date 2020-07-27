@@ -4,7 +4,7 @@ import updateAEImage from "@salesforce/apex/XP_AccountExecutiveController.update
 import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocument";
 import linkExecAndExperience from "@salesforce/apex/XP_AccountExecutiveController.linkExecAndExperience";
 import getDocumentVersionId from "@salesforce/apex/XpAccountController.fetchDocumentVersionId";
-import fetchExecutive from "@salesforce/apex/XP_AccountExecutiveController.fetchExecutive";
+import getExecutive from "@salesforce/apex/XP_AccountExecutiveController.getExecutive";
 import { getRecord } from "lightning/uiRecordApi";
 import USER_ID from "@salesforce/user/Id";
 
@@ -17,39 +17,101 @@ const EXEC_FIELDS = [
 
 export default class XpAddAccountExecutive extends LightningElement {
   @api accountId = "";
-  iamExecutive = false;
   @api xperienceId = "";
-  documentId = "";
-  imageUrl;
-  executiveId = "";
   @api executiveInfo = {
     executiveId: "",
     documentId: "",
     imageUrl: "",
     iamExecutive: false
   };
+  @track exec = {
+    Name: "",
+    Bio: "",
+    Email: "",
+    cno: "",
+    isExecutive: false,
+    documentId: "",
+    imageUrl: "",
+    executiveId: ""
+  };
+  @track backupExec = {
+    Name: "",
+    Bio: "",
+    Email: "",
+    cno: "",
+    isExecutive: false,
+    documentId: "",
+    imageUrl: "",
+    executiveId: ""
+  };
+
+  documentId = "";
+  imageUrl;
+  iamExecutive = false;
+  executiveId = "";
   isFileRelatedToUser = true;
-  @track exec = { Name: "", Bio: "", Email: "", cno: "" };
+
   connectedCallback() {
     console.log("in connectedcallback");
-    this.executiveId = this.executiveInfo.executiveId;
-    this.iamExecutive = this.executiveInfo.iamExecutive;
-    this.imageUrl = this.executiveInfo.imageUrl;
-    this.documentId = this.executiveInfo.documentId;
-  }
-  renderedCallback() {
-    this.isFileRelatedToUser = this.executiveId === "";
+    this.exec.executiveId = this.executiveInfo.executiveId;
+    this.exec.isExecutive = this.executiveInfo.iamExecutive;
+    this.exec.imageUrl = this.executiveInfo.imageUrl;
+    this.exec.documentId = this.executiveInfo.documentId;
+    if (this.exec.executiveId != "") {
+      this.getExecutiveDetails();
+    }
   }
 
+  renderedCallback() {
+    //this.template.
+    this.isFileRelatedToUser = this.exec.executiveId === "";
+  }
+  handleOnChange(event) {
+    this.exec[event.target.name] = event.target.value;
+    console.log("this.exec on change++" + JSON.stringify(this.exec));
+  }
   get recid() {
-    return this.executiveId != "" ? this.executiveId : USER_ID;
+    return this.exec.executiveId != "" ? this.exec.executiveId : USER_ID;
   }
   get acceptedFormats() {
     return [".png", ".jpg", ".jpeg"];
   }
-  @wire(getRecord, { recordId: USER_ID, fields: ["User.Email"] })
+
+  @wire(getRecord, {
+    recordId: USER_ID,
+    fields: ["User.Email", "User.AboutMe", "User.MobilePhone", "User.Name"]
+  })
   loggedInUser;
-  @wire(getRecord, { recordId: "$executiveId", fields: EXEC_FIELDS })
+
+  getExecutiveDetails() {
+    getExecutive({
+      executiveId: this.exec.executiveId,
+      expId: this.xperienceId
+    })
+      .then((data) => {
+        console.log(JSON.stringify(data));
+        this.exec.executiveId = data.executive.Id;
+        this.exec.Name = data.executive.Name;
+        this.exec.Bio = data.executive.Bio__c;
+        this.exec.Email = data.executive.Email__c;
+        this.exec.cno = data.executive.Contact_Number__c;
+        this.exec.isExecutive = data.executive.Is_Executive__c;
+        if (data.cdl) {
+          this.exec.documentId = data.cdl.ContentDocumentId;
+          this.exec.imageUrl =
+            "/sfc/servlet.shepherd/version/download/" +
+            data.cdl.ContentDocument.LatestPublishedVersionId;
+        }
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        this.dispatchEvent(
+          showToast("Error loading Account Executive Details", "", "error")
+        );
+      });
+  }
+
+  /* @wire(getRecord, { recordId: "$executiveId", fields: EXEC_FIELDS })
   getExecRecord({ error, data }) {
     if (error) {
       this.dispatchEvent(
@@ -62,20 +124,32 @@ export default class XpAddAccountExecutive extends LightningElement {
       this.exec.Email = data.fields.Email__c.value;
       this.exec.cno = data.fields.Contact_Number__c.value;
     }
-  }
+  }*/
 
   handleExecutiveToggle(event) {
-    this.iamExecutive = event.target.checked;
-    if (this.iamExecutive) {
-      this.findExecutive();
+    this.exec.isExecutive = event.target.checked;
+    console.log("this.exec in toggle++" + this.exec.isExecutive);
+    if (event.target.checked) {
+      this.backupExec = { ...this.exec };
+      this.getExecutiveFromUser(event);
     } else {
-      this.exec = { Name: "", Bio: "", Email: "", cno: "" };
-      this.documentId = "";
-      this.imageUrl = "";
-      this.executiveId = "";
+      this.exec = { ...this.backupExec };
     }
   }
-  findExecutive() {
+
+  getExecutiveFromUser(event) {
+    console.log("in restore" + JSON.stringify(this.loggedInUser));
+    this.exec.Name = this.loggedInUser.data.fields.Name.value;
+    this.exec.cno = this.loggedInUser.data.fields.MobilePhone.value;
+    this.exec.Email = this.loggedInUser.data.fields.Email.value;
+    this.exec.Bio = this.loggedInUser.data.fields.AboutMe.value;
+    this.exec.isExecutive = !event.target.checked;
+    this.exec.documentId = "";
+    this.exec.imageUrl = "";
+    this.exec.executiveId = "";
+  }
+
+  /* findExecutive() {
     fetchExecutive()
       .then((result) => {
         console.log(JSON.stringify(result));
@@ -96,19 +170,21 @@ export default class XpAddAccountExecutive extends LightningElement {
           this.exec.Name = result.currUser.Name;
           this.exec.cno = result.currUser.Phone;
           this.exec.Email = result.currUser.Email;
+          this.exec.Bio = result.currUser.Aboutme;
         }
       })
       .catch((error) => {
         this.error = error;
       });
-  }
+  }*/
+
   handleUploadFinished(event) {
     console.log("detail***" + JSON.stringify(event.detail));
     const uploadedFiles = event.detail.files;
-    this.documentId = uploadedFiles[0].documentId;
+    this.exec.documentId = uploadedFiles[0].documentId;
     console.log("No. of files uploaded : " + uploadedFiles.length);
-    if (this.executiveId != "") {
-      this.getVersionId(this.executiveId);
+    if (this.exec.executiveId != "") {
+      this.getVersionId(this.exec.executiveId);
     } else {
       this.getVersionId(USER_ID);
     }
@@ -116,18 +192,18 @@ export default class XpAddAccountExecutive extends LightningElement {
   getVersionId(rId) {
     getDocumentVersionId({
       linkedEntityId: rId,
-      documentId: this.documentId
+      documentId: this.exec.documentId
     }).then((result) => {
-      this.imageUrl =
+      this.exec.imageUrl =
         "/sfc/servlet.shepherd/version/download/" +
         result.ContentDocument.LatestPublishedVersionId;
-      console.log("imgurl***" + this.imageUrl);
+      console.log("imgurl***" + this.exec.imageUrl);
     });
   }
   handleSuccess(event) {
-    this.executiveId = event.detail.id;
-    console.log("executiveId**" + this.executiveId);
-    console.log("docid***" + this.documentId);
+    this.exec.executiveId = event.detail.id;
+    console.log("executiveId**" + this.exec.executiveId);
+    console.log("docid***" + this.exec.documentId);
     console.log("thi***" + this.isFileRelatedToUser);
     if (!this.isFileRelatedToUser) {
       this.createJunctionRecord();
@@ -136,7 +212,10 @@ export default class XpAddAccountExecutive extends LightningElement {
     }
   }
   createJunctionRecord() {
-    linkExecAndExperience({ aeId: this.executiveId, expId: this.xperienceId })
+    linkExecAndExperience({
+      aeId: this.exec.executiveId,
+      expId: this.xperienceId
+    })
       .then((result) => {
         this.goToJourneyDetails();
       })
@@ -147,8 +226,8 @@ export default class XpAddAccountExecutive extends LightningElement {
   }
   updateAttachmentId() {
     updateAEImage({
-      aeId: this.executiveId,
-      documentId: this.documentId,
+      aeId: this.exec.executiveId,
+      documentId: this.exec.documentId,
       expId: this.xperienceId
     })
       .then((result) => {
@@ -161,10 +240,10 @@ export default class XpAddAccountExecutive extends LightningElement {
       });
   }
   deleteImage(event) {
-    deleteAttachment({ documentId: this.documentId })
+    deleteAttachment({ documentId: this.exec.documentId })
       .then((result) => {
-        this.documentId = "";
-        this.imageUrl = "";
+        this.exec.documentId = "";
+        this.exec.imageUrl = "";
       })
       .catch((error) => {
         console.log("deletedocument****" + error);
@@ -172,6 +251,14 @@ export default class XpAddAccountExecutive extends LightningElement {
       });
   }
   addAccountExecutive(event) {
+    let togglebox = this.template.querySelector(".togglecheck");
+    this.exec.isExecutive = togglebox.checked;
+    event.detail.fields.Is_Executive__c = this.exec.isExecutive;
+    this.template
+      .querySelector("lightning-record-edit-form")
+      .submit(event.detail.fields);
+  }
+  /*addAccountExecutive(event) {
     console.log("fields****" + JSON.stringify(event.detail.fields));
     event.preventDefault();
     console.log("in submit**" + JSON.stringify(this.loggedInUser));
@@ -196,7 +283,7 @@ export default class XpAddAccountExecutive extends LightningElement {
         .querySelector("lightning-record-edit-form")
         .submit(event.detail.fields);
     }
-  }
+  }*/
   goToJourneyDetails() {
     console.log("in journey");
     this.dispatchEvent(
@@ -207,10 +294,10 @@ export default class XpAddAccountExecutive extends LightningElement {
     this.dispatchEvent(
       new CustomEvent("addexecutive", {
         detail: {
-          executiveId: this.executiveId,
-          documentId: this.documentId,
-          imageUrl: this.imageUrl,
-          iamExecutive: this.iamExecutive
+          executiveId: this.exec.executiveId,
+          documentId: this.exec.documentId,
+          imageUrl: this.exec.imageUrl,
+          iamExecutive: this.exec.isExecutive
         }
       })
     );
