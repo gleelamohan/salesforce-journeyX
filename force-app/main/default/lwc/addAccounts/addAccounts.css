@@ -34,10 +34,10 @@
     background: white;
     border-radius: 5px;
     float: left;
-    height: 50px;
+    height: 100px;
     margin: 20px;
     position: relative;
-    width: 50px;
+    width: 200px;
   }
   
   [class*='close-'] {

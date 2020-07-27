@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, track } from "lwc";
 import updateAttachment from "@salesforce/apex/XpAccountController.updateAccountAttachment";
 import deleteAttachment from "@salesforce/apex/XpAccountController.deleteDocument";
 import saveXperience from "@salesforce/apex/XpAccountController.savXperience";
@@ -9,11 +9,25 @@ export default class AddAccounts extends LightningElement {
   @api userId;
   @api accountId;
   @api xperienceId;
-  documentId = "";
+  @track documentId = "";
   attachmentName = "";
+  attachmentRecordId;
   logo;
 
   connectedCallback(){
+    this.attachmentRecordId = this.userId;
+      if(this.accountId){
+        getDocumentVersionId({ linkedEntityId: this.accountId,documentId: '' })
+        .then((result) =>
+        {
+          if(result){
+          this.attachmentRecordId = this.accountId;
+          this.documentId = result.ContentDocument.Id;
+          console.log( this.documentId);
+          this.logo = '/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
+          }
+        });
+      }
     
   }
 
@@ -74,18 +88,18 @@ export default class AddAccounts extends LightningElement {
     this.template.querySelector("lightning-record-edit-form").submit();
   }
 
-  deleteAttachment(event){
-      this.documentId = "";
-      this.attachmentName = "";
-
-      updateAttachment({ documentId: this.documentId })
+  deleteAttach(event){
+  
+    deleteAttachment({ documentId: this.documentId })
       .then((result) => {
+        this.documentId = "";
+        this.attachmentName = "";
          console.log('document deleted');
       })
       .catch((error) => {
         this.error = error;
         console.log(error);
-      });
+      }); 
   }
 
   handleUploadFinished(event) {

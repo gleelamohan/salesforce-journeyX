@@ -31,17 +31,17 @@
       </div>
       <div>
         <div if:false={documentId}>
-          <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats} record-id={userId}
+          <lightning-file-upload label="Attach Logo" name="fileUploader" accept={acceptedFormats} record-id={attachmentRecordId}
             onuploadfinished={handleUploadFinished}>
           </lightning-file-upload>
         </div>
         <div if:true={documentId}>
           <div class="img-container">
             <div class="dialog">
-              <a href="#" class="close-thik" onclick={deleteAttachment}></a>
+              <span class="close-thik" onclick={deleteAttach}></span>
               <div style="margin-top:10px;">
                 <!--<lightning-icon icon-name="doctype:image" alternative-text="Image file" title="Image"></lightning-icon>-->
-                <img src={logo} style="height:100px;" />
+                <img src={logo} style="height:100px;width:200px;" />
               </div>
             </div>
           </div>
