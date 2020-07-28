@@ -1,0 +1,21 @@
+.journey-title{
+  color:#2E5B96;
+  font-weight: bold;
+  padding: 10px 0px 10px;
+}
+
+.image-area {
+  position: relative;
+  border: var(--lwc-borderWidthThin, 1px) solid
+    var(--lwc-colorBorderInput, rgb(221, 219, 218));
+  border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+  
+}
+.image-area img {
+  width: 100%;
+  height: 100%;
+}
+
+.slds-grid{
+  margin-top: 10px;
+}

@@ -6,6 +6,32 @@
     <div class="slds-border_bottom">
         <c-flowpath stage-id="4"></c-flowpath>
     </div>
+    <div>
+       
+            <div class="journey-title">
+                Journey Details
+              </div>
+              <div class="slds-col"  if:true={journeyInfo}>
+                <lightning-combobox
+                name="progress"
+                label="Experience Name"
+                value={journeyValue}
+                placeholder="Select Journey"
+                options={dropdown}
+                onchange={handleChange} >
+                </lightning-combobox>
+
+                <lightning-input type="text" label="Experience Description" value={description}></lightning-input>
+                <lightning-input type="text" label="Event Key" value={key}></lightning-input>
+                <div class="slds-grid" if:true={journeyImage}>
+                    <div class="slds-col">
+                        <div class="image-area slds-p-around_small">
+                            <img src={journeyImage} class="picture" alt="preview" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
     <lightning-layout horizontal-align="spread">
         <lightning-layout-item padding="around-small" flexibility="auto,no-grow">
             <lightning-button variant="brand" label="Go Back" onclick={handleGoBack}></lightning-button>
@@ -15,4 +41,5 @@
             </lightning-button>
         </lightning-layout-item>
     </lightning-layout>
+</div>
 </template>
