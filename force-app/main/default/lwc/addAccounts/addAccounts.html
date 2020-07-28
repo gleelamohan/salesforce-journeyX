@@ -35,19 +35,30 @@
             onuploadfinished={handleUploadFinished}>
           </lightning-file-upload>
         </div>
-        <div if:true={documentId}>
-          <div class="img-container">
+       
+
+          <div class="slds-grid" if:true={documentId}>
+            <div class="slds-col slds-size_2-of-5">
+                <label class="slds-form-element__label slds-no-flex">{attachmentName}</label>
+                <div class="image-area slds-p-around_small">
+                    <img src={logo} class="picture" alt="preview" />
+                    <a onclick={deleteAttach} class="remove-image" style="display: inline;">&#215;</a>
+                </div>
+            </div>
+        </div>
+
+          <!-- <div if:true={documentId}><div class="img-container">
             <div class="dialog">
               <span class="close-thik" onclick={deleteAttach}></span>
               <div style="margin-top:10px;">
-                <!--<lightning-icon icon-name="doctype:image" alternative-text="Image file" title="Image"></lightning-icon>-->
+               
                 <img src={logo} style="height:100px;width:200px;" />
               </div>
             </div>
           </div>
-          <div>{attachmentName}</div>
+          <div>{attachmentName}</div> </div>-->
           
-        </div>
+       
       </div>
       <div class="align">
         <lightning-button variant="brand" label="I'm Done! Lets Add Contacts" title="Primary action" onclick={saveClick}
