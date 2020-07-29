@@ -1,0 +1,132 @@
+<template>
+  <div class="slds-border_bottom">
+    <c-flowpath stage-id="5"></c-flowpath>
+  </div>
+  <div>
+    <div class="preview-title">
+      Preview Experience
+    </div>
+    <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+      <div class="slds-size_1-of-2">
+        <div class="slds-box_x-small slds-m-around_x-small">
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="form-element-01">
+              EXPERIENCE NAME</label
+            >
+            <div class="slds-form-element__control">
+              Journey-X - This is Salesforce <br />
+              Supports re-entry at any time (v3)
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="form-element-01"
+              >EVENT KEY</label
+            >
+            <div class="slds-form-element__control">
+              APIEvent-1b818fcb-f3c1-0ba4-4e0f-af8fef41a71d
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="form-element-01"
+              >SELECT START DATE AND TIME</label
+            >
+            <div class="slds-form-element__control">
+              <lightning-input
+                type="datetime"
+                name="input3"
+                label="Required Date Time field"
+                required
+                value="2020-09-12T18:13:41Z"
+              ></lightning-input>
+            </div>
+          </div>
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="form-element-01"
+              >YOUR START DATE IS</label
+            >
+            <div class="slds-form-element__control">
+              Wed Jul 29 2020 22:00:00 GMT+0530 (India Standard Time)
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slds-size_1-of-2">
+        <div class="slds-box_x-small slds-m-around_x-small">
+          <div class="slds-progress slds-progress_vertical slds-p-left_medium">
+            <ol class="slds-progress__list left">
+              <li class="slds-progress__item slds-is-completed">
+                <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title="Complete">
+                  <lightning-icon icon-name="utility:success" size="xx-small" alternative-text="Approved" title="Approved"></lightning-icon>
+                  </span>
+                <div
+                  class="slds-progress__item_content slds-grid slds-grid_align-spread"
+                >
+                  <h1>Journey-X - This is Salesforce</h1>
+                </div>
+              </li>
+              <li class="slds-progress__item slds-is-completed">
+                <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title="Complete">
+                  <lightning-icon icon-name="utility:success" size="xx-small" alternative-text="Approved" title="Approved"></lightning-icon>
+                  </span>
+
+                <div
+                  class="slds-progress__item_content slds-grid slds-grid_align-spread"
+                >
+                  <h1>Test Acc</h1>
+                  <b>(Industry:FMCG)</b>
+                </div>
+              </li>
+              <li class="slds-progress__item slds-is-completed">
+                <span class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success" title="Complete">
+                  <lightning-icon icon-name="utility:success" size="xx-small" alternative-text="Approved" title="Approved"></lightning-icon>
+                  </span>
+
+                <div
+                  class="slds-progress__item_content slds-grid slds-grid_align-spread"
+                >
+                  <h1>1 Participant(s)</h1>
+                </div>
+              </li>
+              <li class="slds-progress__item slds-is-active">
+                <div class="slds-progress__marker"></div>
+                <div
+                  class="slds-progress__item_content slds-grid slds-grid_align-spread"
+                >
+                  <h1>Scheduled for&nbsp;</h1>
+                  at 22:00
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <div class="slds-col slds-size_2-of-2">
+      <lightning-layout horizontal-align="spread">
+        <lightning-layout-item
+          padding="around-small"
+          flexibility="auto,no-grow"
+        >
+          <lightning-button
+            variant="brand"
+            label="Go Back"
+            onclick={handleGoBack}
+          ></lightning-button>
+        </lightning-layout-item>
+        <lightning-layout-item
+          padding="around-small"
+          flexibility="auto,no-grow"
+        >
+          <lightning-button
+            variant="brand"
+            type="submit"
+            label="Schedule Journey"
+            onclick={goToSchedule}
+          >
+          </lightning-button>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+  </div>
+</template>

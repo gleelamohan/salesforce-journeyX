@@ -13,7 +13,7 @@ export default class AddContacts extends LightningElement {
   }
   handleSuccess(event) {
     this.template.querySelector("c-display-contacts").reloadContactData();
-    this.showToast();
+    //this.showToast();
     this.resetForm();
   }
 

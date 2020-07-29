@@ -10,6 +10,7 @@ export default class CreateExperience extends LightningElement {
   @api stage = "account";
   @track accountId;
   @track xpId;
+  @track journeyId;
   @track executiveInfo = {
     executiveId: "",
     documentId: "",
@@ -51,6 +52,15 @@ export default class CreateExperience extends LightningElement {
   get isJourneyStage() {
     return this.stage === "journey";
   }
+
+  get isPreviewStage() {
+    return this.stage === "preview";
+  }
+
+  get isScheduleJourney() {
+    return this.stage === "schedule";
+  }
+
   goToAddAccounts(event) {
     this.accountId = event.detail.accountId;
     this.xpId = event.detail.xpId;
@@ -68,5 +78,28 @@ export default class CreateExperience extends LightningElement {
   goToJourneyDetails(event) {
     this.stage = "journey";
     this.executiveInfo = event.detail;
+    
+  }
+
+  goToJourneyDetailsFromPreview(event) {
+    this.stage = "journey";
+    this.accountId = event.detail.accountId;
+    this.xpId = event.detail.xpId;
+    this.journeyId = event.detail.journeyId;
+    
+  }
+
+  gotoPreview(event){
+    this.stage = "preview";
+    this.accountId = event.detail.accountId;
+    this.xpId = event.detail.xpId;
+    this.journeyId = event.detail.journeyId;
+  }
+
+  goToSchedule(event){
+    this.stage = "schedule";
+    this.accountId = event.detail.accountId;
+    this.xpId = event.detail.xpId;
+    this.journeyId = event.detail.journeyId;
   }
 }

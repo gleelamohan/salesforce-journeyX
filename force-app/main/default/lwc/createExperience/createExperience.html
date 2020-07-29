@@ -23,9 +23,19 @@
                 </c-xp-add-account-executive>
             </template>
             <template if:true={isJourneyStage}>
-                <c-xp-journey-details account-id={accountId} xperience-id={xpId} executive-id={executiveId}
-                    onbacktoexecutive={goToExecutive}>
+                <c-xp-journey-details account-id={accountId} xperience-id={xpId} executive-id={executiveId} journey-id={journeyId}
+                    onbacktoexecutive={goToExecutive} onjourneysubmit={gotoPreview}> 
                 </c-xp-journey-details>
+            </template>
+            <template if:true={isPreviewStage}>
+                <c-xp-preview-experience account-id={accountId} xperience-id={xpId} journey-id={journeyId}
+                 onschedule={goToSchedule}   onbacktojourney={goToJourneyDetailsFromPreview}>
+                </c-xp-preview-experience>
+            </template>
+            <template if:true={isScheduleJourney}>
+                <c-xp-schedule-journey account-id={accountId} xperience-id={xpId} journey-id={journeyId}
+                onbacktopreview={gotoPreview}>
+                </c-xp-schedule-journey>
             </template>
         </div>
     </div>

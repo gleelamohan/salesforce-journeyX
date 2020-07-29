@@ -1,0 +1,15 @@
+.slds-form-element{
+  margin-bottom:20px;
+}
+
+.slds-icon--xx-small, .slds-icon_xx-small {
+  width: .875rem;
+  height: .875rem;
+  line-height: 1;
+}
+
+.preview-title{
+  color:#2E5B96;
+  font-weight: bold;
+  padding: 10px 0px 10px;
+}

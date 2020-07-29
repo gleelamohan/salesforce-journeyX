@@ -286,9 +286,9 @@ export default class XpAddAccountExecutive extends LightningElement {
   }*/
   goToJourneyDetails() {
     console.log("in journey");
-    this.dispatchEvent(
+    /*this.dispatchEvent(
       showToast("Success", "Account Executive added successfully.")
-    );
+    );*/
     console.log("before dispatch" + JSON.stringify(this.executiveInfo));
 
     this.dispatchEvent(

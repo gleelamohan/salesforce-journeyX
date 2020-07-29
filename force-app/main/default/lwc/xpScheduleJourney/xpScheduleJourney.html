@@ -1,0 +1,59 @@
+<template>
+  <div class="slds-border_bottom">
+    <c-flowpath stage-id="6"></c-flowpath>
+  </div>
+  
+  <div >
+    <div class="schedule-title">
+      Schedule Journey
+       </div>
+  <div
+  class="slds-m-vertical_small slds-p-horizontal_small slds-col slds-size_1-of-1 slds-text-align_center"
+  style="background-color: rgb(250, 250, 250);text-align:center;"
+>
+  <div
+    class="slds-p-vertical_medium formContent slds-text-title_caps slds-align_absolute-center"
+  >
+    <div class="slds-form-element is-required">
+      <label
+        class="slds-checkbox_toggle slds-grid"
+        for="checkbox-example-required"
+        ><abbr class="slds-required" title="required">*</abbr
+        ><span class="slds-form-element__label slds-m-bottom_none"
+          >Are you sure you're ready to schedule this experience?</span
+        ><span class="slds-assistive-text"
+          >Would you like to confirm sending out this experience?</span
+        > <lightning-input type="toggle" label="Basic option" name="input1"></lightning-input></label>
+    </div>
+  </div>
+  <div class="slds-text-color_weak slds-p-bottom_medium">
+    Once scheduled this cannot be undone.
+  </div>
+</div>
+<div class="slds-col slds-size_2-of-2">
+  <lightning-layout horizontal-align="spread">
+    <lightning-layout-item
+      padding="around-small"
+      flexibility="auto,no-grow"
+    >
+      <lightning-button
+        variant="brand"
+        label="Go Back"
+        onclick={handleGoBack}
+      ></lightning-button>
+    </lightning-layout-item>
+    <lightning-layout-item
+      padding="around-small"
+      flexibility="auto,no-grow"
+    >
+      <lightning-button
+        variant="brand"
+        type="submit"
+        label="Submit"
+      >
+      </lightning-button>
+    </lightning-layout-item>
+  </lightning-layout>
+</div>
+</div>
+</template>
