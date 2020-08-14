@@ -1,14 +1,29 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement,api, track } from 'lwc';
+import scheduleJourney from "@salesforce/apex/XP_ExperienceController.scheduleJourney";
+
 
 export default class XpScheduleJourney extends LightningElement {
-  @api accountId;
+ 
   @api xperienceId;
-  @api journeyId;
+  @api scheduleId;
+  @api displayDt;
+  @track  disabled = true;
+  @track checked = false;
+
+
+  changeToggle(event){
+    this.checked = !this.checked;
+
+    if(this.checked ){
+       this.disabled = false;
+    }
+    else{
+      this.disabled = true;
+    }
+}
 
   handleGoBack() {
-    this.dispatchEvent(new CustomEvent("backtopreview"), {
-      detail: { accountId: this.accountId, xpId: this.xperienceId, journeyId: this.journeyId }
-    });
+    this.dispatchEvent(new CustomEvent("backtopreview"));
 }
 
 submitExperience() {
@@ -19,7 +34,14 @@ submitExperience() {
     xpId: this.xperienceId
   }).then((result) => {
     console.log("Journey Scheduled Successfully!!");
+    this.goToScheduled();
   });
+}
+
+goToScheduled() {
+  this.dispatchEvent(
+    new CustomEvent("scheduled")
+  );
 }
       
 }

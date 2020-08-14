@@ -23,7 +23,7 @@
           >Are you sure you're ready to schedule this experience?</span
         ><span class="slds-assistive-text"
           >Would you like to confirm sending out this experience?</span
-        > <lightning-input type="toggle" label="Basic option" name="input1"></lightning-input></label>
+        > <lightning-input onchange={changeToggle}  type="toggle" label="Basic option" name="input1"></lightning-input></label>
     </div>
   </div>
   <div class="slds-text-color_weak slds-p-bottom_medium">
@@ -48,8 +48,10 @@
     >
       <lightning-button
         variant="brand"
-        type="submit"
+        type="button"
+        disabled={disabled}
         label="Submit"
+        onclick={submitExperience}
       >
       </lightning-button>
     </lightning-layout-item>

@@ -18,6 +18,7 @@ export default class CreateExperience extends LightningElement {
     iamExecutive: false
   };
   @track scheduleDt;
+  @track displayDt;
   @wire(getRecord, {
     recordId: USER_ID,
     fields: [NAME_FIELD]
@@ -62,6 +63,10 @@ export default class CreateExperience extends LightningElement {
     return this.stage === "schedule";
   }
 
+  get isScheduled() {
+    return this.stage === "scheduled";
+  }
+
   goToAddAccounts(event) {
     this.accountId = event.detail.accountId;
     this.xpId = event.detail.xpId;
@@ -95,7 +100,13 @@ export default class CreateExperience extends LightningElement {
   goToFinal(event){
     this.stage = "schedule";
     console.log(event.detail);
-    this.scheduleDt = event.detail;
+    //this.scheduleDt = event.detail;
     this.scheduleDt = event.detail.scheduledTime;
+    this.displayDt = event.detail.displayScheduleDt;
   }
+
+  goToScheduled(event){
+    this.stage = "scheduled";
+  }
+
 }

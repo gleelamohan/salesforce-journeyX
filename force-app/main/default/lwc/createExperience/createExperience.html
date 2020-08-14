@@ -33,10 +33,13 @@
                 </c-xp-preview-experience>
             </template>
             <template if:true={isScheduleJourney}>
-                <c-xp-schedule-journey account-id={accountId} xperience-id={xpId} journey-id={journeyId}
-                onbacktopreview={gotoPreview}>
+                <c-xp-schedule-journey  xperience-id={xpId} display-dt={displayDt}  schedule-id={scheduleDt} onscheduled={goToScheduled} onbacktopreview={gotoPreview}>
                 </c-xp-schedule-journey>
             </template>
+            <template if:true={isScheduled}>
+               <c-xp-journey-scheduled  scheduled-dt={displayDt} ></c-xp-journey-scheduled>
+            </template>
+            
         </div>
     </div>
 </template>

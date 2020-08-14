@@ -26,9 +26,11 @@ public with sharing class XP_ExperienceController {
    @AuraEnabled
    public static void scheduleJourney(string scheduleDate, string xpId){
 
+    String[] dateArray = scheduleDate.split(';');
+
     List<Experience__c> xp = [select Status__c, DateScheduled__c from Experience__c where Id = :xpId];
 
-    xp[0].DateScheduled__c = Datetime.valueOf(scheduleDate);
+    xp[0].DateScheduled__c = datetime.newInstance(Integer.valueOf(dateArray[0]), Integer.valueOf(dateArray[1]), Integer.valueOf(dateArray[2]), Integer.valueOf(dateArray[3]), Integer.valueOf(dateArray[4]), Integer.valueOf(dateArray[5]));
     xp[0].Status__c = 'Scheduled';
 
     update xp;

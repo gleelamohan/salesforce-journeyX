@@ -16,6 +16,7 @@ export default class Flowpath extends LightningElement {
   @track stage4 = false;
   @track stage5 = false;
   @track stage6 = false;
+  @track stage7 = false;
 
   connectedCallback() {
     if (this.stageId == "1") {
@@ -35,6 +36,9 @@ export default class Flowpath extends LightningElement {
     }
     if (this.stageId == "6") {
       this.stage6 = true;
+    }
+    if (this.stageId == "7") {
+      this.stage7 = true;
     }
   }
 }

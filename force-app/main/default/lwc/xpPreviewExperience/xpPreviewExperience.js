@@ -7,12 +7,16 @@ export default class XpPreviewExperience extends LightningElement {
   @api journeyId;
   xpDetails;
   scheduleDateTime;
+  displayDate;
+  selectedDate;
   connectedCallback() {
     this.getPreviewDetails();
   }
 
   handleDateTimeChange(event) {
     this.scheduleDateTime = new Date(event.target.value).toLocaleString();
+    this.selectedDate = new Date(event.target.value);
+    this.displayDate = new Date(event.target.value).toLocaleString();
   }
 
   getPreviewDetails() {
@@ -20,6 +24,8 @@ export default class XpPreviewExperience extends LightningElement {
       console.log(result);
       this.xpDetails = result;
       this.scheduleDateTime = new Date().toISOString();
+      this.displayDate = new Date().toLocaleString();
+      this.selectedDate = new Date();
     });
   }
 
@@ -27,11 +33,16 @@ export default class XpPreviewExperience extends LightningElement {
     this.dispatchEvent(new CustomEvent("backtojourney"));
   }
 
+  getDateString(){
+    return this.selectedDate.getFullYear() + ';' + this.selectedDate.getMonth() + ';' + this.selectedDate.getDate() + ';' + this.selectedDate.getHours() + ';' + this.selectedDate.getMinutes() + ';' + this.selectedDate.getSeconds();
+  }
+
   goToFinalSchedule() {
     this.dispatchEvent(
       new CustomEvent("next", {
         detail: {
-          scheduledTime: this.scheduleDateTime
+          scheduledTime:  this.getDateString(),
+          displayScheduleDt: this.displayDate
         }
       })
     );
