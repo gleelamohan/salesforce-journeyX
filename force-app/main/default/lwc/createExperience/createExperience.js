@@ -96,5 +96,6 @@ export default class CreateExperience extends LightningElement {
     this.stage = "schedule";
     console.log(event.detail);
     this.scheduleDt = event.detail;
+    this.scheduleDt = event.detail.scheduledTime;
   }
 }

@@ -28,8 +28,12 @@ export default class XpPreviewExperience extends LightningElement {
   }
 
   goToFinalSchedule() {
-    this.dispatchEvent(new CustomEvent("next"), {bubbles: true , composed : true ,
-      detail: this.scheduleDateTime
-    },);
+    this.dispatchEvent(
+      new CustomEvent("next", {
+        detail: {
+          scheduledTime: this.scheduleDateTime
+        }
+      })
+    );
   }
 }
