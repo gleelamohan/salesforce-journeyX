@@ -29,7 +29,7 @@
             </template>
             <template if:true={isPreviewStage}>
                 <c-xp-preview-experience account-id={accountId} xperience-id={xpId} journey-id={journeyId}
-                 onschedule={goToSchedule}   onbacktojourney={goToJourneyDetailsFromPreview}>
+                    onbacktojourney={goToJourneyDetailsFromPreview}  onnext = {goToFinal}>
                 </c-xp-preview-experience>
             </template>
             <template if:true={isScheduleJourney}>

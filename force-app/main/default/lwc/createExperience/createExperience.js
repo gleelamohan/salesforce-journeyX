@@ -17,6 +17,7 @@ export default class CreateExperience extends LightningElement {
     imageUrl: "",
     iamExecutive: false
   };
+  @track scheduleDt;
   @wire(getRecord, {
     recordId: USER_ID,
     fields: [NAME_FIELD]
@@ -83,23 +84,17 @@ export default class CreateExperience extends LightningElement {
 
   goToJourneyDetailsFromPreview(event) {
     this.stage = "journey";
-    this.accountId = event.detail.accountId;
-    this.xpId = event.detail.xpId;
-    this.journeyId = event.detail.journeyId;
     
   }
 
   gotoPreview(event){
     this.stage = "preview";
-    this.accountId = event.detail.accountId;
-    this.xpId = event.detail.xpId;
     this.journeyId = event.detail.journeyId;
   }
 
-  goToSchedule(event){
+  goToFinal(event){
     this.stage = "schedule";
-    this.accountId = event.detail.accountId;
-    this.xpId = event.detail.xpId;
-    this.journeyId = event.detail.journeyId;
+    console.log(event.detail);
+    this.scheduleDt = event.detail;
   }
 }

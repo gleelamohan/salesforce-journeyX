@@ -11,6 +11,15 @@ export default class XpScheduleJourney extends LightningElement {
     });
 }
 
-
+submitExperience() {
+  console.log(this.scheduleId);
+  console.log(this.xperienceId);
+  scheduleJourney({
+    scheduleDate: this.scheduleId,
+    xpId: this.xperienceId
+  }).then((result) => {
+    console.log("Journey Scheduled Successfully!!");
+  });
+}
       
 }

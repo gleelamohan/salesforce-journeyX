@@ -1,19 +1,35 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track } from "lwc";
+import fetchPreviewInfo from "@salesforce/apex/XP_ExperienceController.fetchPreviewInfo";
 
 export default class XpPreviewExperience extends LightningElement {
-
   @api accountId;
   @api xperienceId;
   @api journeyId;
+  xpDetails;
+  scheduleDateTime;
+  connectedCallback() {
+    this.getPreviewDetails();
+  }
 
-  handleGoBack() {
-    this.dispatchEvent(new CustomEvent("backtojourney"), {
-      detail: { accountId: this.accountId, xpId: this.xperienceId, journeyId: this.journeyId }
+  handleDateTimeChange(event) {
+    this.scheduleDateTime = new Date(event.target.value).toLocaleString();
+  }
+
+  getPreviewDetails() {
+    fetchPreviewInfo({ xpId: this.xperienceId }).then((result) => {
+      console.log(result);
+      this.xpDetails = result;
+      this.scheduleDateTime = new Date().toISOString();
     });
   }
-  goToSchedule(){
-    this.dispatchEvent(new CustomEvent("schedule"), {
-      detail: { accountId: this.accountId, xpId: this.xperienceId, journeyId: this.journeyId }
-    });
-}
+
+  handleGoBack() {
+    this.dispatchEvent(new CustomEvent("backtojourney"));
+  }
+
+  goToFinalSchedule() {
+    this.dispatchEvent(new CustomEvent("next"), {bubbles: true , composed : true ,
+      detail: this.scheduleDateTime
+    },);
+  }
 }

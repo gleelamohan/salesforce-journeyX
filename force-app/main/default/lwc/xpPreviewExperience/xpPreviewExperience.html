@@ -6,7 +6,7 @@
     <div class="preview-title">
       Preview Experience
     </div>
-    <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+    <div class="demo-only demo-only--sizing slds-grid slds-wrap" if:true={xpDetails}>
       <div class="slds-size_1-of-2">
         <div class="slds-box_x-small slds-m-around_x-small">
           <div class="slds-form-element">
@@ -14,7 +14,7 @@
               EXPERIENCE NAME</label
             >
             <div class="slds-form-element__control">
-              Journey-X - This is Salesforce <br />
+              {xpDetails.xpName} <br />
               Supports re-entry at any time (v3)
             </div>
           </div>
@@ -23,7 +23,7 @@
               >EVENT KEY</label
             >
             <div class="slds-form-element__control">
-              APIEvent-1b818fcb-f3c1-0ba4-4e0f-af8fef41a71d
+              {xpDetails.xpKey}
             </div>
           </div>
           <div class="slds-form-element">
@@ -36,7 +36,8 @@
                 name="input3"
                 label="Required Date Time field"
                 required
-                value="2020-09-12T18:13:41Z"
+                value= {scheduleDateTime}
+                onchange={handleDateTimeChange}
               ></lightning-input>
             </div>
           </div>
@@ -45,7 +46,7 @@
               >YOUR START DATE IS</label
             >
             <div class="slds-form-element__control">
-              Wed Jul 29 2020 22:00:00 GMT+0530 (India Standard Time)
+              {scheduleDateTime}
             </div>
           </div>
         </div>
@@ -61,7 +62,7 @@
                 <div
                   class="slds-progress__item_content slds-grid slds-grid_align-spread"
                 >
-                  <h1>Journey-X - This is Salesforce</h1>
+                  <h1>{xpDetails.xpName}</h1>
                 </div>
               </li>
               <li class="slds-progress__item slds-is-completed">
@@ -72,7 +73,7 @@
                 <div
                   class="slds-progress__item_content slds-grid slds-grid_align-spread"
                 >
-                  <h1>Test Acc</h1>
+                  <h1>{xpDetails.accName}</h1>
                   <b>(Industry:FMCG)</b>
                 </div>
               </li>
@@ -84,7 +85,7 @@
                 <div
                   class="slds-progress__item_content slds-grid slds-grid_align-spread"
                 >
-                  <h1>1 Participant(s)</h1>
+                  <h1>{xpDetails.noOfParticipants} Participant(s)</h1>
                 </div>
               </li>
               <li class="slds-progress__item slds-is-active">
@@ -93,7 +94,7 @@
                   class="slds-progress__item_content slds-grid slds-grid_align-spread"
                 >
                   <h1>Scheduled for&nbsp;</h1>
-                  at 22:00
+                  {scheduleDateTime}
                 </div>
               </li>
             </ol>
@@ -122,7 +123,7 @@
             variant="brand"
             type="submit"
             label="Schedule Journey"
-            onclick={goToSchedule}
+            onclick={goToFinalSchedule}
           >
           </lightning-button>
         </lightning-layout-item>

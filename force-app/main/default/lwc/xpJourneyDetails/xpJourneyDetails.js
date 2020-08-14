@@ -64,7 +64,7 @@ export default class XpJourneyDetails extends LightningElement {
 
       console.log("Journey Added!!");
       const journeyEvent = new CustomEvent("journeysubmit", {
-        detail: { accountId: this.accountId, xpId: this.xperienceId, journeyId: this.journeyId }
+        detail: {journeyId: this.journeyId }
       });
       this.dispatchEvent(journeyEvent);
 
