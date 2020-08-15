@@ -99,7 +99,7 @@ export default class XpAddAccountExecutive extends LightningElement {
         if (data.cdl) {
           this.exec.documentId = data.cdl.ContentDocumentId;
           this.exec.imageUrl =
-            "/sfc/servlet.shepherd/version/download/" +
+            "/Xperience/sfc/servlet.shepherd/version/download/" +
             data.cdl.ContentDocument.LatestPublishedVersionId;
         }
       })

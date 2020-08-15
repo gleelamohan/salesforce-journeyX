@@ -34,7 +34,7 @@ export default class XpJourneyDetails extends LightningElement {
       this.journeyValue = result[0].journey.Name;
       this.key = result[0].journey.Journey_Id__c;
       this.journeyId = result[0].journey.Id;
-      this.journeyImage = '/sfc/servlet.shepherd/version/download/'+result[0].cdLink.ContentDocument.LatestPublishedVersionId;
+      this.journeyImage = '/Xperience/sfc/servlet.shepherd/version/download/'+result[0].cdLink.ContentDocument.LatestPublishedVersionId;
   
     });
   }

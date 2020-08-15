@@ -24,7 +24,7 @@ export default class AddAccounts extends LightningElement {
           this.attachmentRecordId = this.accountId;
           this.documentId = result.ContentDocument.Id;
           console.log( this.documentId);
-          this.logo = '/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
+          this.logo = '/Xperience/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
           }
         });
       }

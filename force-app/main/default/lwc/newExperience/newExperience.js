@@ -5,6 +5,6 @@ export default class NewExperience extends LightningElement {
     logo = assets + '/images/newexp.png';
 
     navigateToCreateExp() {
-        window.location.href = "/s/create-experience";
+        window.location.href = "/Xperience/s/create-experience";
     }
 }

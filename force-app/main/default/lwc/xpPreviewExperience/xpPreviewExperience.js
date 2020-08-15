@@ -14,7 +14,7 @@ export default class XpPreviewExperience extends LightningElement {
   }
 
   handleDateTimeChange(event) {
-    this.scheduleDateTime = new Date(event.target.value).toLocaleString();
+    this.scheduleDateTime = new Date(event.target.value).toISOString();
     this.selectedDate = new Date(event.target.value);
     this.displayDate = new Date(event.target.value).toLocaleString();
   }
