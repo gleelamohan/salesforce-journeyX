@@ -195,7 +195,7 @@ export default class XpAddAccountExecutive extends LightningElement {
       documentId: this.exec.documentId
     }).then((result) => {
       this.exec.imageUrl =
-        "/sfc/servlet.shepherd/version/download/" +
+        "/Xperience/sfc/servlet.shepherd/version/download/" +
         result.ContentDocument.LatestPublishedVersionId;
       console.log("imgurl***" + this.exec.imageUrl);
     });

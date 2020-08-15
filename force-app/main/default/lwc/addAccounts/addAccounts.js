@@ -76,7 +76,7 @@ export default class AddAccounts extends LightningElement {
     getDocumentVersionId({ linkedEntityId: this.userId,documentId: this.documentId })
     .then((result) =>
     {
-      this.logo = '/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
+      this.logo = '/Xperience/sfc/servlet.shepherd/version/download/'+result.ContentDocument.LatestPublishedVersionId;
     });
   }
 
