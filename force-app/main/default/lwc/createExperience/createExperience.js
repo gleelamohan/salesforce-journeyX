@@ -8,8 +8,8 @@ export default class CreateExperience extends LightningElement {
   @track name;
   @track id;
   @api stage = "account";
-  @track accountId;
-  @track xpId;
+  @api accountId;
+  @api xpId;
   @track journeyId;
   @track executiveInfo = {
     executiveId: "",

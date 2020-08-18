@@ -1,0 +1,34 @@
+<template>
+    <template if:true={showConfirmDialog}>
+        <!--Modal Box Start-->
+        <div role="dialog" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!--Modal Box Header Start-->
+                <header class="slds-modal__header">
+                    <h1 class="slds-text-heading--medium">Confirmation</h1>
+                </header>
+                <!--Modal Box Header End-->
+
+                <!--Modal Box Content Start-->
+                <div class="slds-modal__content slds-p-around--medium">
+                    <center><b>Are you sure you want to delete this item?</b></center>
+                </div>
+                <!--Modal Box Content End-->
+
+                <!--Modal Box Button Start-->
+                <footer class="slds-modal__footer">
+                    <lightning-button class="slds-p-right_small" name='No' label='No' onclick={handleConfirmDialogNo}>
+                    </lightning-button>
+                    <lightning-button data-recid={selrecId} variant="brand" name='Yes' label='Yes'
+                        onclick={handleConfirmDialogYes}></lightning-button>
+                </footer>
+                <!--Modal Box Button End-->
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </template>
+    <lightning-datatable if:true={xpdata.data} data={xpdata.data} columns={columns} key-field="xpId"
+        hide-checkbox-column="true" sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting}
+        onrowaction={handleRowActions}>
+    </lightning-datatable>
+</template>
