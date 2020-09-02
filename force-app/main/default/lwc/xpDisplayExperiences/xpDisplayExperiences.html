@@ -27,8 +27,10 @@
         </div>
         <div class="slds-backdrop slds-backdrop--open"></div>
     </template>
-    <lightning-datatable if:true={xpdata.data} data={xpdata.data} columns={columns} key-field="xpId"
-        hide-checkbox-column="true" sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting}
-        onrowaction={handleRowActions}>
-    </lightning-datatable>
+    <div if:true={xpdata} style="height:200px">
+        <lightning-datatable data={xpdata} columns={columns} key-field="xpId" hide-checkbox-column="true"
+            sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting} onrowaction={handleRowActions}
+            onheaderaction={handleHeaderAction}>
+        </lightning-datatable>
+    </div>
 </template>

@@ -7,11 +7,13 @@ import getMyExperiences from "@salesforce/apex/xpDisplayExperiencesCtrl.getMyExp
 export default class XpDisplayExperiences extends NavigationMixin(
   LightningElement
 ) {
-  @wire(getMyExperiences)
-  xpdata;
+
+  xpdata = [];
+  all_xpdata = [];
   showConfirmDialog;
   selrecId;
   sortBy;
+  activeFilter = 'all';
   sortDirection;
   actions = [
     { label: "Edit", name: "edit" },
@@ -22,22 +24,34 @@ export default class XpDisplayExperiences extends NavigationMixin(
       label: "Account Name",
       fieldName: "accName",
       type: "text",
-      sortable: "true"
+      sortable: "true",
+      hideDefaultActions: true
     },
-    { label: "Experience Name", fieldName: "xperienceName", sortable: "true" },
+    {
+      label: "Experience Name", fieldName: "xperienceName",
+      sortable: "true", hideDefaultActions: true
+    },
     {
       label: "Start Date",
       fieldName: "scheduled_date",
       type: "date",
-      sortable: "true"
+      sortable: "true",
+      hideDefaultActions: true
     },
     {
       label: "Number of Participants",
       fieldName: "participantCount",
       type: "number",
-      sortable: "true"
+      sortable: "true", hideDefaultActions: true
     },
-    { label: "Status", fieldName: "status", type: "text", sortable: "true" },
+    {
+      label: "Status", fieldName: "status", type: "text", sortable: "true", hideDefaultActions: true,
+      actions: [
+        { label: 'All', checked: true, name: 'all' },
+        { label: 'Draft', checked: false, name: 'Draft' },
+        { label: 'Scheduled', checked: false, name: 'Scheduled' }
+      ]
+    },
     {
       type: "action",
       typeAttributes: {
@@ -46,6 +60,17 @@ export default class XpDisplayExperiences extends NavigationMixin(
       }
     }
   ];
+  @wire(getMyExperiences)
+  wiredExperiences({ error, data }) {
+    if (data) {
+      this.xpdata = data;
+      this.all_xpdata = data;
+      this.error = undefined;
+    } else if (error) {
+      this.error = error;
+      this.xpdata = undefined;
+    }
+  }
 
   doSorting(event) {
     this.sortBy = event.detail.fieldName;
@@ -53,7 +78,7 @@ export default class XpDisplayExperiences extends NavigationMixin(
     this.sortData(this.sortBy, this.sortDirection);
   }
   sortData(fieldname, direction) {
-    let parseData = JSON.parse(JSON.stringify(this.xpdata.data));
+    let parseData = JSON.parse(JSON.stringify(this.xpdata));
     // Return the value stored in the field
     let keyValue = (a) => {
       return a[fieldname];
@@ -67,7 +92,7 @@ export default class XpDisplayExperiences extends NavigationMixin(
       // sorting values based on direction
       return isReverse * ((x > y) - (y > x));
     });
-    this.xpdata.data = parseData;
+    this.xpdata = parseData;
   }
   handleRowActions(event) {
     let actionName = event.detail.action.name;
@@ -85,6 +110,29 @@ export default class XpDisplayExperiences extends NavigationMixin(
       case "delete":
         this.deleteCurrentRow(row);
         break;
+    }
+  }
+  handleHeaderAction(event) {
+    const actionName = event.detail.action.name;
+    const colDef = event.detail.columnDefinition;
+    const cols = this.columns;
+    const activeFilter = this.activeFilter;
+
+    if (actionName !== activeFilter) {
+      cols.find(col => col.label === colDef.label).actions.forEach(action => action.checked = action.name === actionName);
+      this.columns = [...cols];
+      this.updateXpData(colDef, actionName);
+    }
+
+  }
+  updateXpData(colDef, actionName) {
+    const rows = this.all_xpdata;
+    if (actionName !== 'all') {
+      let filteredRows = [];
+      filteredRows = rows.filter(_xperience => _xperience[colDef.fieldName] === actionName);
+      this.xpdata = filteredRows;
+    } else if (actionName === 'all') {
+      this.xpdata = this.all_xpdata;
     }
   }
   editCurrentRecord(row) {
