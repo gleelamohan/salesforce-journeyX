@@ -2,6 +2,7 @@ import { LightningElement, wire, track, api } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 import USER_ID from "@salesforce/user/Id";
 import NAME_FIELD from "@salesforce/schema/User.Name";
+import getRelatedExecutive from "@salesforce/apex/XP_AccountExecutiveController.getRelatedExecutive";
 
 export default class CreateExperience extends LightningElement {
   @track error;
@@ -10,7 +11,7 @@ export default class CreateExperience extends LightningElement {
   @api stage = "account";
   @api accountId;
   @api xpId;
-  @track journeyId;
+  @api journeyId;
   @track executiveInfo = {
     executiveId: "",
     documentId: "",
@@ -108,5 +109,28 @@ export default class CreateExperience extends LightningElement {
   goToScheduled(event){
     this.stage = "scheduled";
   }
-
+  renderedCallback() {
+    console.log("this.xp id****" + this.xpId);
+    console.log("this.acc id****" + this.accountId);
+  }
+  connectedCallback() {
+    console.log("in connectedcallback");
+    console.log("in connectedcallback"+this.xpId);
+    getRelatedExecutive({
+      expId: this.xpId
+    })
+      .then((data) => {
+        var execId = data;
+        console.log("executive id:"+execId);
+        if(execId!=""){
+          this.executiveInfo.executiveId=execId;
+        }
+      })
+      .catch((error) => {
+        console.log(JSON.stringify(error));
+        this.dispatchEvent(
+          showToast("Error loading Account Executive Details", "", "error")
+        );
+      });
+  }
 }

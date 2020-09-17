@@ -13,7 +13,7 @@ export default class XpScheduleJourney extends LightningElement {
 
   changeToggle(event){
     this.checked = !this.checked;
-
+    console.log(this.scheduleId);
     if(this.checked ){
        this.disabled = false;
     }
@@ -30,7 +30,7 @@ submitExperience() {
   console.log(this.scheduleId);
   console.log(this.xperienceId);
   scheduleJourney({
-    scheduleDate: this.scheduleId,
+    scheduleDate: this.displayDt,
     xpId: this.xperienceId
   }).then((result) => {
     console.log("Journey Scheduled Successfully!!");

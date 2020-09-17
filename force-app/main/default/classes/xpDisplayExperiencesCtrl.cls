@@ -5,9 +5,26 @@ public with sharing class xpDisplayExperiencesCtrl {
     @AuraEnabled(cacheable=true)
     public static List<ExperienceWrapper> getMyExperiences(){
         List<ExperienceWrapper> expWrapList = new List<ExperienceWrapper>();
-        for(Experience__c exp :  [SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c
-                FROM Experience__c limit 2000]){
-                //where OwnerId =: UserInfo.getUserId()]){
+        List<Experience__c> experiences = new List<Experience__c>();
+        String whiteSpace = ' ';
+        /*String query = 'SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c' + whiteSpace +
+                        'FROM Experience__c where OwnerId =\''+UserInfo.getUserId()+'\'' + whiteSpace;
+        String limitClause = 'order by DateScheduled__c desc limit 2000';
+        
+        if(isOnload){
+            query += limitClause;
+        }else{ 
+            if(String.isNotBlank(Status)){
+                query += 'AND Status__c = :Status' + whiteSpace;
+            }
+            if(String.isNotBlank(searchText)){
+                String searchLiteral = '\'%'+searchText+'%\'';
+                query += 'AND (NAME LIKE ' +searchLiteral+ ' OR Account__r.Name Like '+searchLiteral+')';
+            }
+        }
+        system.debug(query);*/
+        for(Experience__c exp :  [SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c,Journey__c
+                                  FROM Experience__c order by DateScheduled__c desc limit 2000]){
             ExperienceWrapper expWrap = new ExperienceWrapper();
             expWrap.xperienceName = exp.Name;
             expWrap.status = exp.Status__c;
@@ -16,6 +33,7 @@ public with sharing class xpDisplayExperiencesCtrl {
             expWrap.xpId = exp.Id;
             expWrap.accId = exp.Account__c;
             expWrap.participantCount = (Integer)exp.Account__r.No_of_Participants__c;
+            expWrap.journeyId = exp.Journey__c;
             expWrapList.add(expWrap);
         }
         return expWrapList;
@@ -28,9 +46,6 @@ public with sharing class xpDisplayExperiencesCtrl {
         if(!xpRecords.isEmpty()){
             Experience__c expToDelete = xpRecords[0];
             recordsToDelete.add(expToDelete);
-
-            Journey__c journeyToDelete = new Journey__c(id = expToDelete.Journey__c);
-            recordsToDelete.add(journeyToDelete);
 
             Account_xp__c accToDelete = new Account_xp__c(id=xpRecords[0].Account__c);
             recordsToDelete.add(accToDelete);
@@ -66,6 +81,8 @@ public with sharing class xpDisplayExperiencesCtrl {
         public String xpId{get;set;}
         @AuraEnabled
         public String accId{get;set;}
+        @AuraEnabled
+        public String journeyId{get;set;}
     }
         
 }

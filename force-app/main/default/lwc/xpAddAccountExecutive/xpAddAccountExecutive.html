@@ -14,12 +14,10 @@
                 messages that are part of the experience.</div>
         </div>
 
-        <lightning-record-edit-form object-api-name="XP_Executive__c" class="editform" onsuccess={handleSuccess}
-            record-id={exec.executiveId} onsubmit={addAccountExecutive}>
+        <lightning-record-edit-form object-api-name="XP_Executive__c" class="editform" onsuccess={handleSuccess} record-id={exec.executiveId} onsubmit={addAccountExecutive}>
             <div class="slds-grid slds-wrap slds-gutters">
                 <div class="sld-col slds-size_2-of-2">
-                    <lightning-messages>
-                    </lightning-messages>
+                    <lightning-messages></lightning-messages>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
                     <lightning-input-field name="Name" required field-name="Name" title="Full Name" value={exec.Name}

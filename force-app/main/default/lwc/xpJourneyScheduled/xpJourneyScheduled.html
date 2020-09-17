@@ -19,7 +19,8 @@
           </span>
           <div class="slds-notify__content">
             <h2 class="slds-text-heading_small">
-              The Journey is scheduled at {scheduledDt}
+              The Journey is scheduled at <lightning-formatted-date-time value={scheduledDt} weekday="long" year="numeric" month="long" day="numeric" hour="2-digit"
+              minute="2-digit" time-zone={timeZone} time-zone-name="short" hour12="true"></lightning-formatted-date-time>
             </h2>
           </div>
           <div class="slds-notify__close">

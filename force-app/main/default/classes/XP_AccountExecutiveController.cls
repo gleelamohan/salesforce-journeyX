@@ -28,7 +28,7 @@ public with sharing class XP_AccountExecutiveController {
     public static List<XP_Executive_Experience__c>  getExecutiveExperience(String aeId, String expId){
         return new List<XP_Executive_Experience__c>(
             [SELECT Id,Executive__c, Experience__c, Executive__r.Name, Executive__r.Email__c,
-                    Executive__r.Contact_Number__c, Executive__r.Bio__c, Executive__r.Is_Executive__c
+                    Executive__r.Contact_Number__c, Executive__r.Bio__c, Executive__r.Is_Executive__c,CreatedDate
             FROM XP_Executive_Experience__c
             WHERE Executive__c =: aeId
             and Experience__c=:expId]);
@@ -51,6 +51,16 @@ public with sharing class XP_AccountExecutiveController {
         aeWrap.cdl = fetchDocument(executiveId);
       }
       return aeWrap;
+    }
+
+    @AuraEnabled
+    public static String getRelatedExecutive(String expId){
+        String execId = '';
+        List<XP_Executive_Experience__c> expJunctionList = [SELECT Id,Executive__c, Experience__c FROM XP_Executive_Experience__c WHERE Experience__c=:expId Order By CreatedDate Desc];
+        if(!expJunctionList.isempty() && String.isNotBlank(expJunctionList[0].Executive__c)){
+            execId = expJunctionList[0].Executive__c;
+        }
+        return execId;
     }
 
    @AuraEnabled
