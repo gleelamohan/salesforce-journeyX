@@ -13,6 +13,7 @@
     <targetConfig targets="lightningCommunity__Default">
       <property name="xpId" type="String"></property>
       <property name="accountId" type="String"></property>
+      <property name="journeyId" type="String"></property>
     </targetConfig>
   </targetConfigs>
 </LightningComponentBundle>

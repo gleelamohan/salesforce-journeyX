@@ -109,4 +109,12 @@ export default class AddAccounts extends LightningElement {
     console.log("No. of files uploaded : " + uploadedFiles.length);
     this.getVersionId();
   }
+
+  handleOnLoad(event) {
+    console.log('loading finished');
+    var divblock = this.template.querySelector('[data-id="divblock"]');
+    if(divblock){
+      this.template.querySelector('[data-id="divblock"]').className='slds-show';
+    }
+  }
 }

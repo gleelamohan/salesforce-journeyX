@@ -37,6 +37,7 @@
                 label="Required Date Time field"
                 required
                 value= {scheduleDateTime}
+                timezone = {timeZone}
                 onchange={handleDateTimeChange}
               ></lightning-input>
             </div>
@@ -46,7 +47,8 @@
               >YOUR START DATE IS</label
             >
             <div class="slds-form-element__control">
-              {displayDate}
+              <lightning-formatted-date-time value={selectedDate} weekday="long" year="numeric" month="long" day="numeric" hour="2-digit"
+                                        minute="2-digit" time-zone={timeZone} time-zone-name="short" hour12="true"></lightning-formatted-date-time>
             </div>
           </div>
         </div>
@@ -94,7 +96,8 @@
                   class="slds-progress__item_content slds-grid slds-grid_align-spread"
                 >
                   <h1>Scheduled for&nbsp;</h1>
-                  {displayDate}
+                  <lightning-formatted-date-time value={selectedDate} weekday="short" year="numeric" month="short" day="numeric" hour="2-digit"
+                  minute="2-digit" time-zone={timeZone} time-zone-name="short" hour12="true"></lightning-formatted-date-time>
                 </div>
               </li>
             </ol>

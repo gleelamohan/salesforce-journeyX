@@ -143,7 +143,8 @@ export default class XpDisplayExperiences extends NavigationMixin(
       },
       state: {
         accId: row.accId,
-        xpId: row.xpId
+        xpId: row.xpId,
+        jId: row.journeyId
       }
     });
   }

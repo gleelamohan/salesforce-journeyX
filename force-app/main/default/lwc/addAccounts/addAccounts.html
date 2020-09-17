@@ -1,4 +1,5 @@
 <template>
+  <div class="slds-hide" data-id="divblock">
   <div class="slds-border_bottom">
     <c-flowpath stage-id="1"></c-flowpath>
   </div>
@@ -8,13 +9,11 @@
     </div>
     <div class="slds-grid slds-wrap">
 
-      <lightning-record-edit-form object-api-name="Account_xp__c" class="editform" onsuccess={handleSuccess}
-        record-id={accountId}>
+      <lightning-record-edit-form object-api-name="Account_xp__c" class="editform" onsuccess={handleSuccess} record-id={accountId} onload={handleOnLoad}>
         <div class="slds-grid">
           <lightning-messages> </lightning-messages>
           <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field field-name="Name__c" title="Experience Name" placeholder="Experience Name">
-            </lightning-input-field>
+            <lightning-input-field field-name="Name__c" title="Experience Name" placeholder="Experience Name"></lightning-input-field>
             <lightning-input-field field-name="Business_Unit__c" title="Type"></lightning-input-field>
             <lightning-input-field field-name="Industry__c" type="Industry"></lightning-input-field>
           </div>
@@ -62,5 +61,6 @@
           class="slds-m-left_x-small"></lightning-button>
       </div>
     </div>
+  </div>
   </div>
 </template>
