@@ -3,16 +3,17 @@ public with sharing class xpDisplayExperiencesCtrl {
 
     }
     @AuraEnabled(cacheable=true)
-    public static List<ExperienceWrapper> getMyExperiences(){
+    public static List<ExperienceWrapper> getMyExperiences(String status, String searchText, Boolean isOnload){
         List<ExperienceWrapper> expWrapList = new List<ExperienceWrapper>();
         List<Experience__c> experiences = new List<Experience__c>();
         String whiteSpace = ' ';
-        /*String query = 'SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c' + whiteSpace +
-                        'FROM Experience__c where OwnerId =\''+UserInfo.getUserId()+'\'' + whiteSpace;
+        String query = 'SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c,Journey__c' + whiteSpace +
+                        'FROM Experience__c';
+        query+= whiteSpace + 'where OwnerId =\''+UserInfo.getUserId()+'\'';
         String limitClause = 'order by DateScheduled__c desc limit 2000';
         
         if(isOnload){
-            query += limitClause;
+            query += whiteSpace + limitClause;
         }else{ 
             if(String.isNotBlank(Status)){
                 query += 'AND Status__c = :Status' + whiteSpace;
@@ -22,9 +23,9 @@ public with sharing class xpDisplayExperiencesCtrl {
                 query += 'AND (NAME LIKE ' +searchLiteral+ ' OR Account__r.Name Like '+searchLiteral+')';
             }
         }
-        system.debug(query);*/
-        for(Experience__c exp :  [SELECT ID,NAME,Status__c,DateScheduled__c,Account__c,Account__r.Name, Account__r.No_of_Participants__c,Journey__c
-                                  FROM Experience__c order by DateScheduled__c desc limit 2000]){
+        system.debug(query);
+       
+        for(Experience__c exp : database.query(query)){
             ExperienceWrapper expWrap = new ExperienceWrapper();
             expWrap.xperienceName = exp.Name;
             expWrap.status = exp.Status__c;
@@ -84,5 +85,4 @@ public with sharing class xpDisplayExperiencesCtrl {
         @AuraEnabled
         public String journeyId{get;set;}
     }
-        
 }

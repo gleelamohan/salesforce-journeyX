@@ -27,10 +27,16 @@
         </div>
         <div class="slds-backdrop slds-backdrop--open"></div>
     </template>
-    <div if:true={xpdata} style="height:400px">
-        <lightning-datatable data={xpdata} columns={columns} key-field="xpId" hide-checkbox-column="true"
-            sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting} onrowaction={handleRowActions}
-            onheaderaction={handleHeaderAction}>
+    <div style="height:400px">
+        <div onkeyup={handleSearchInput} class="slds-p-bottom_medium">
+            <lightning-input name="enter-search" type="search"></lightning-input>
+        </div>
+
+        <lightning-datatable if:false={checkdata} data={xpdata} columns={columns} key-field="xpId"
+            hide-checkbox-column="true" sorted-by={sortBy} sorted-direction={sortDirection} onsort={doSorting}
+            onrowaction={handleRowActions} onheaderaction={handleHeaderAction}>
         </lightning-datatable>
+        <c-xp-illustration if:true={checkdata} heading="No Data" variant="no_data:open_road"
+            message-body="Data not found for selected filter criteria."></c-xp-illustration>
     </div>
 </template>

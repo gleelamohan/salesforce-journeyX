@@ -8,13 +8,16 @@ export default class XpDisplayExperiences extends NavigationMixin(
   LightningElement
 ) {
 
-  xpdata = [];
-  all_xpdata = [];
+  @track xpdata = [];
+  @track all_xpdata = [];
   showConfirmDialog;
   selrecId;
   sortBy;
   activeFilter = 'all';
   sortDirection;
+  queryTerm = '';
+  selStatusFilter = '';
+  onload = true;
   actions = [
     { label: "Edit", name: "edit" },
     { label: "Delete", name: "delete" }
@@ -60,7 +63,10 @@ export default class XpDisplayExperiences extends NavigationMixin(
       }
     }
   ];
-  @wire(getMyExperiences)
+  get checkdata() {
+    return !this.xpdata || this.xpdata.length == 0;
+  }
+  @wire(getMyExperiences, { status: '$selStatusFilter', searchText: '$queryTerm', isOnload: '$onload' })
   wiredExperiences({ error, data }) {
     if (data) {
       this.xpdata = data;
@@ -114,6 +120,7 @@ export default class XpDisplayExperiences extends NavigationMixin(
   }
   handleHeaderAction(event) {
     const actionName = event.detail.action.name;
+    this.selStatusFilter = actionName;
     const colDef = event.detail.columnDefinition;
     const cols = this.columns;
     const activeFilter = this.activeFilter;
@@ -122,17 +129,18 @@ export default class XpDisplayExperiences extends NavigationMixin(
       cols.find(col => col.label === colDef.label).actions.forEach(action => action.checked = action.name === actionName);
       this.columns = [...cols];
       this.updateXpData(colDef, actionName);
+    } else {
+      this.xpdata = [...this.all_xpdata];
     }
 
   }
   updateXpData(colDef, actionName) {
-    const rows = this.all_xpdata;
+    const rows = [...this.all_xpdata];
+    console.log('actionName***')
     if (actionName !== 'all') {
       let filteredRows = [];
       filteredRows = rows.filter(_xperience => _xperience[colDef.fieldName] === actionName);
       this.xpdata = filteredRows;
-    } else if (actionName === 'all') {
-      this.xpdata = this.all_xpdata;
     }
   }
   editCurrentRecord(row) {
@@ -179,4 +187,13 @@ export default class XpDisplayExperiences extends NavigationMixin(
         );
       });
   }
+  handleSearchInput(evt) {
+    const isEnterKey = evt.keyCode === 13;
+    if (isEnterKey) {
+      this.queryTerm = evt.target.value;
+      this.onload = false;
+      //return refreshApex(this.xpdata);
+    }
+  }
+
 }
