@@ -1,0 +1,1 @@
+public class XP_ExtendException extends Exception{}
